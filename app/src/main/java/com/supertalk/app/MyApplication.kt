@@ -1,10 +1,7 @@
-package com.supertalk.app
+package io.github.pavel.jetpack
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
-
 @HiltAndroidApp
-class MyApplication : Application(){
-    //Testing
-}
+class NewsApplication : Application()
