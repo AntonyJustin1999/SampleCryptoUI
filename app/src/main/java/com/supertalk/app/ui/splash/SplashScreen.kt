@@ -1,4 +1,4 @@
-package com.example.jetpackcomposetask.ui.splash
+package com.supertalk.app.ui.splash
 
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.tween
@@ -24,7 +24,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.jetpackcomposetask.R
+import com.supertalk.app.R
+import com.supertalk.app.util.NavDestinations
 import kotlinx.coroutines.delay
 
 @Composable
@@ -49,7 +50,7 @@ fun SplashScreen(navController: NavController) {
 
     LaunchedEffect(key1 = true) {
         delay(3000L)
-        navController.navigate("main_screen")
+        navController.navigate(NavDestinations.BASIC_INDRO_SLIDER_SCREEN)
     }
 
 

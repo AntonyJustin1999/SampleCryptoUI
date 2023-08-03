@@ -1,4 +1,4 @@
-package com.example.jetpackcomposetask.ui.theme
+package com.supertalk.app.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

@@ -1,4 +1,4 @@
-package com.example.jetpackcomposetask
+package com.supertalk.app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,10 +17,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.jetpackcomposetask.ui.splash.SplashScreen
-import com.example.jetpackcomposetask.ui.theme.SuperTalkApplicationTheme
-import com.example.jetpackcomposetask.util.NavDestinations
+import com.supertalk.app.ui.basic_intro_slider.BasicIntroSliderScreen
+import com.supertalk.app.ui.splash.SplashScreen
+import com.supertalk.app.ui.theme.SuperTalkApplicationTheme
+import com.supertalk.app.util.NavDestinations
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,15 +42,15 @@ class MainActivity : ComponentActivity() {
                         composable(NavDestinations.SPLASH_SCREEN) {
                             SplashScreen(navController)
                         }
-//                            composable(NavDestinations.BASIC_INDRO_SLIDER_SCREEN) {
-//                                BasicIntroSliderScreen(navController)
-//                            }
-                        // Main Screen
-                        composable("main_screen") {
-                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                                Text(text = "Main Screen", color = Color.Black, fontSize = 24.sp)
+                            composable(NavDestinations.BASIC_INDRO_SLIDER_SCREEN) {
+                                BasicIntroSliderScreen(navController)
                             }
-                        }
+                        // Main Screen
+//                        composable("main_screen") {
+//                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+//                                Text(text = "Main Screen", color = Color.Black, fontSize = 24.sp)
+//                            }
+//                        }
                     }
                 }
             }

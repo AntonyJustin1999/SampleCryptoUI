@@ -1,4 +1,4 @@
-package io.github.pavel.jetpack.ui.base
+package com.supertalk.app.ui.base
 
 import androidx.annotation.MainThread
 import androidx.collection.ArraySet

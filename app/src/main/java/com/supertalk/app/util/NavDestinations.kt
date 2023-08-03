@@ -1,4 +1,4 @@
-package com.example.jetpackcomposetask.util
+package com.supertalk.app.util
 
 object NavDestinations {
     const val SPLASH_SCREEN = "SPLASH_SCREEN"

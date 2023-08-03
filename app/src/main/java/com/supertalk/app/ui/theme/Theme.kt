@@ -1,4 +1,4 @@
-package com.example.jetpackcomposetask.ui.theme
+package com.supertalk.app.ui.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme

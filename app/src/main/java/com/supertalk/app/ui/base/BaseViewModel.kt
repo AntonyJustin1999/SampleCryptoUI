@@ -1,7 +1,6 @@
-package io.github.pavel.jetpack.ui.base
+package com.supertalk.app.ui.base
 
 import androidx.lifecycle.*
-import io.github.pavel.jetpack.data.model.RequestException
 import kotlinx.coroutines.launch
 import java.net.HttpURLConnection
 
@@ -53,7 +52,7 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
     }
 
     protected fun onCallError(error: Throwable) {
-        checkIsUnauthorized(error)
+        //checkIsUnauthorized(error)
         setError(error.message.orEmpty())
     }
 
@@ -61,9 +60,9 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
 
     protected fun setError(errorMessage: String) = _error.postValue(errorMessage)
 
-    private fun checkIsUnauthorized(error: Throwable) {
-        if (error is RequestException && error.code == HttpURLConnection.HTTP_UNAUTHORIZED) {
-            _unauthorized.postValue(true)
-        }
-    }
+//    private fun checkIsUnauthorized(error: Throwable) {
+//        if (error is RequestException && error.code == HttpURLConnection.HTTP_UNAUTHORIZED) {
+//            _unauthorized.postValue(true)
+//        }
+//    }
 }

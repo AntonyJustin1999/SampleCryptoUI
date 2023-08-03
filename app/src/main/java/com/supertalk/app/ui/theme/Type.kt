@@ -1,4 +1,4 @@
-package com.example.jetpackcomposetask.ui.theme
+package com.supertalk.app.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
