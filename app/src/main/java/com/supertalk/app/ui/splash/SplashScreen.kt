@@ -4,6 +4,7 @@ import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,10 +22,14 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.supertalk.app.R
+import com.supertalk.app.ui.theme.SuperTalkApplicationTheme
 import com.supertalk.app.util.NavDestinations
 import kotlinx.coroutines.delay
 
@@ -56,7 +61,8 @@ fun SplashScreen(navController: NavController) {
 
     // Image
     Box(contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()) {
+        modifier = Modifier.fillMaxSize().background(color = colorResource(R.color.background))
+    ) {
         Image(
             painter = painterResource(id = R.drawable.app_icon),
             contentDescription = null,
@@ -64,5 +70,13 @@ fun SplashScreen(navController: NavController) {
             modifier = Modifier
                 .size(300.dp)
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SplashPreview() {
+    SuperTalkApplicationTheme {
+        SplashScreen(rememberNavController())
     }
 }

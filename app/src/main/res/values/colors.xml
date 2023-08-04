@@ -4,4 +4,6 @@
     <color name="violet_light">#7553C5</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="background">#f3f0ff</color>
+    <color name="text_color">#7C8396</color>
 </resources>
