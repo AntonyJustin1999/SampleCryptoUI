@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.supertalk.app.ui.basic_intro_slider.BasicIntroSliderScreen
 import com.supertalk.app.ui.login.LoginScreen
+import com.supertalk.app.ui.registration.RegistrationOTPScreen
 import com.supertalk.app.ui.splash.SplashScreen
 import com.supertalk.app.ui.theme.SuperTalkApplicationTheme
 import com.supertalk.app.util.NavDestinations
@@ -48,6 +49,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(NavDestinations.LOGIN_SCREEN) {
                             LoginScreen(navController)
+                        }
+                        composable(NavDestinations.REGISTRATION_OTP_SCREEN) {
+                            RegistrationOTPScreen(navController)
                         }
                     }
                 }

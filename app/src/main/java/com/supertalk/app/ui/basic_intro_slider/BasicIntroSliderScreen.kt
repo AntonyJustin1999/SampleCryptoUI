@@ -106,7 +106,7 @@ fun BasicIntroSliderScreen(navController: NavController) {
                             ClickableText(
                                 text = AnnotatedString("Skip") ,
                                 onClick = {
-                                    navController.navigate(NavDestinations.LOGIN_SCREEN)
+                                    navController.navigate(NavDestinations.REGISTRATION_OTP_SCREEN)
                                 }
                                 ,style = TextStyle(
                                     color = colorResource(R.color.white),
@@ -211,7 +211,7 @@ fun ButtonWithElevation(navController: NavController,mPageCount : MutableState<I
             mPageCount.value += 1
         } else{
             if(mPageCount.value >= 2){
-                navController.navigate(NavDestinations.LOGIN_SCREEN)
+                navController.navigate(NavDestinations.REGISTRATION_OTP_SCREEN)
             }
         }
     },elevation =  ButtonDefaults.elevation(
@@ -221,7 +221,7 @@ fun ButtonWithElevation(navController: NavController,mPageCount : MutableState<I
         .height(50.dp)
         .coloredShadow(color = MaterialTheme.colors.primary,
             offsetX = (-4).dp, offsetY = 3.dp, shadowRadius = 10.dp),
-        shape = RoundedCornerShape(30),
+        shape = RoundedCornerShape(14.dp),
     ) {
         Text(text = "Next",style = TextStyle(
             fontSize = 15.sp,

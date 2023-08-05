@@ -6,4 +6,9 @@
     <color name="black">#000000</color>
     <color name="background">#f3f0ff</color>
     <color name="text_color">#7C8396</color>
+    <color name="otp_color_background">#FFE0DD</color>
+    <color name="otp_text_color">#EC5C4D</color>
+    <color name="disabled_btn_color">#C6C6C6</color>
+
+
 </resources>
