@@ -9,6 +9,9 @@
     <color name="otp_color_background">#FFE0DD</color>
     <color name="otp_text_color">#EC5C4D</color>
     <color name="disabled_btn_color">#C6C6C6</color>
+    <color name="un_selected_background_color">#D6D0E2</color>
+    <color name="border_color">#E9E0FF</color>
+    <color name="border_color1">#EFA142</color>
 
 
 </resources>

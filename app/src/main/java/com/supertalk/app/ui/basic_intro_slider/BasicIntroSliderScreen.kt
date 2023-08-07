@@ -212,6 +212,7 @@ fun ButtonWithElevation(navController: NavController,mPageCount : MutableState<I
         } else{
             if(mPageCount.value >= 2){
                 navController.navigate(NavDestinations.REGISTRATION_OTP_SCREEN)
+                //navController.navigate(NavDestinations.LOGIN_SCREEN)
             }
         }
     },elevation =  ButtonDefaults.elevation(
@@ -237,8 +238,7 @@ fun Modifier.coloredShadow(
     borderRadius: Dp = 0.dp,
     shadowRadius: Dp = 20.dp,
     offsetY: Dp = 0.dp,
-    offsetX: Dp = 0.dp
-) = composed {
+    offsetX: Dp = 0.dp) = composed {
     val shadowColor = color.copy(alpha = alpha).toArgb()
     val transparent = color.copy(alpha= 0f).toArgb()
     this.drawBehind {
