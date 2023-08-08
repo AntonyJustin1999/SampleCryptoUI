@@ -71,7 +71,6 @@ val textImageList = listOf(
 )
 
 fun showToast(s: String) {
-
 }
 
 @Composable
