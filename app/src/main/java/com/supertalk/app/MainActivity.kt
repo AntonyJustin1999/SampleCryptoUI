@@ -19,6 +19,7 @@ import com.supertalk.app.ui.privacy.PrivacyScreen
 import com.supertalk.app.ui.privacy.TermsandConditionsScreen
 import com.supertalk.app.ui.registration.RegistrationOTPScreen
 import com.supertalk.app.ui.splash.SplashScreen
+import com.supertalk.app.ui.sports.SportsSelectionScreen
 import com.supertalk.app.ui.theme.SuperTalkApplicationTheme
 import com.supertalk.app.util.NavDestinations
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +38,11 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
+<<<<<<< HEAD
                         startDestination = NavDestinations.HOME_SCREEN,
+=======
+                        startDestination = NavDestinations.SPORTS_SELECTION_SCREEN,
+>>>>>>> 199bab3a4c1c1b8e139ea3a4e639ce50591da242
                     ) {
                         composable(NavDestinations.SPLASH_SCREEN) {
                             SplashScreen(navController)
@@ -57,8 +62,13 @@ class MainActivity : ComponentActivity() {
                         composable(NavDestinations.TERMS_AND_CONDITIONS_SCREEN) {
                             TermsandConditionsScreen(navController)
                         }
+<<<<<<< HEAD
                         composable(NavDestinations.HOME_SCREEN) {
                             HomeScreen(navController)
+=======
+                        composable(NavDestinations.SPORTS_SELECTION_SCREEN) {
+                            SportsSelectionScreen(navController)
+>>>>>>> 199bab3a4c1c1b8e139ea3a4e639ce50591da242
                         }
                     }
                 }
