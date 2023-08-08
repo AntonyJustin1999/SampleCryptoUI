@@ -187,8 +187,24 @@ fun HomeScreen(navController: NavController) {
 
         }
 
+        Text(
+            text = "Sports",
+            style = TextStyle(
+                color = Color.Black,
+                fontSize = 15.sp,
+                fontFamily = CustomFonts.manrope_extra_bold
+            ),
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(start = 16.dp, top = 10.dp)
+        )
 
         customListView(LocalContext.current)
+
+
+
+
+
+
 
 
         Spacer(modifier = Modifier.weight(1f))
@@ -440,7 +456,8 @@ fun customListView(context: Context) {
                 // padding from our all sides.
                 modifier = Modifier
                     .padding(8.dp)
-                    .width(100.dp)
+                    .width(83.dp)
+                    .height(85.dp)
                     .border(2.dp, colorResource(id = R.color.border_color1), shape = RoundedCornerShape (16.dp))
                 , shape = RoundedCornerShape(16.dp)
 
@@ -472,8 +489,8 @@ fun customListView(context: Context) {
                         // in the below line, we are setting height
                         // and width for our image.
                         modifier = Modifier
-                            .height(60.dp)
-                            .width(60.dp)
+                            .height(29.dp)
+                            .width(29.dp)
                             .padding(5.dp),
 
                         alignment = Alignment.Center
@@ -482,15 +499,14 @@ fun customListView(context: Context) {
                     // in the below line, we are adding spacer between image and a text
                     Spacer(modifier = Modifier.height(3.dp))
 
-                    // in the below line, we are creating a text.
                     Text(
-                        // inside the text on below line we are
-                        // setting text as the language name
-                        // from our model class.
                         text = sportsList[index].sportsName,
 
-                        // in the below line, we are adding padding
-                        // for our text from all sides.
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontSize = 14.sp,
+                            fontFamily = CustomFonts.manrope_extra_bold
+                        ),
                         modifier = Modifier.padding(4.dp),
 
                         // in the below line, we are adding color for our text

@@ -38,11 +38,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-<<<<<<< HEAD
                         startDestination = NavDestinations.HOME_SCREEN,
-=======
-                        startDestination = NavDestinations.SPORTS_SELECTION_SCREEN,
->>>>>>> 199bab3a4c1c1b8e139ea3a4e639ce50591da242
                     ) {
                         composable(NavDestinations.SPLASH_SCREEN) {
                             SplashScreen(navController)
@@ -62,26 +58,24 @@ class MainActivity : ComponentActivity() {
                         composable(NavDestinations.TERMS_AND_CONDITIONS_SCREEN) {
                             TermsandConditionsScreen(navController)
                         }
-<<<<<<< HEAD
                         composable(NavDestinations.HOME_SCREEN) {
                             HomeScreen(navController)
-=======
-                        composable(NavDestinations.SPORTS_SELECTION_SCREEN) {
-                            SportsSelectionScreen(navController)
->>>>>>> 199bab3a4c1c1b8e139ea3a4e639ce50591da242
+                            composable(NavDestinations.SPORTS_SELECTION_SCREEN) {
+                                SportsSelectionScreen(navController)
+                            }
                         }
                     }
                 }
             }
         }
     }
-}
 
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SuperTalkApplicationTheme {
-        SplashScreen(rememberNavController())
+    @Preview(showBackground = true)
+    @Composable
+    fun GreetingPreview() {
+        SuperTalkApplicationTheme {
+            SplashScreen(rememberNavController())
+        }
     }
 }
