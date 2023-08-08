@@ -60,10 +60,11 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(NavDestinations.HOME_SCREEN) {
                             HomeScreen(navController)
-                            composable(NavDestinations.SPORTS_SELECTION_SCREEN) {
-                                SportsSelectionScreen(navController)
-                            }
                         }
+                        composable(NavDestinations.SPORTS_SELECTION_SCREEN) {
+                            SportsSelectionScreen(navController)
+                        }
+
                     }
                 }
             }
