@@ -1,5 +1,6 @@
 package com.supertalk.app
 
+import RoomCreationScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,6 +21,7 @@ import com.supertalk.app.ui.login.LoginScreen
 import com.supertalk.app.ui.privacy.PrivacyScreen
 import com.supertalk.app.ui.privacy.TermsandConditionsScreen
 import com.supertalk.app.ui.registration.RegistrationOTPScreen
+import com.supertalk.app.ui.room_created.RoomCreatedScreen
 import com.supertalk.app.ui.splash.SplashScreen
 import com.supertalk.app.ui.sports.SportsSelectionScreen
 import com.supertalk.app.ui.theme.SuperTalkApplicationTheme
@@ -40,7 +42,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = NavDestinations.HOME_SCREEN,
+                        startDestination = NavDestinations.SPLASH_SCREEN,
                     ) {
                         composable(NavDestinations.SPLASH_SCREEN) {
                             SplashScreen(navController)
@@ -72,7 +74,12 @@ class MainActivity : ComponentActivity() {
                         composable(NavDestinations.ACCOUNT_CREATION_SUCCESS_SCREEN) {
                             AccountCreationSuccessScreen(navController)
                         }
-
+                        composable(NavDestinations.ROOM_CREATION_SCREEN) {
+                            RoomCreationScreen(navController)
+                        }
+                        composable(NavDestinations.ROOM_CREATED_SCREEN) {
+                            RoomCreatedScreen(navController)
+                        }
                     }
                 }
             }
