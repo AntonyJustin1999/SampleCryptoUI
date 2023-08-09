@@ -19,10 +19,13 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Button
@@ -46,6 +49,9 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -55,6 +61,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -66,6 +73,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.supertalk.app.R
 import com.supertalk.app.model.HorizontalPagerContent
+import com.supertalk.app.model.NewsDataSet
 import com.supertalk.app.model.SportsDataSet
 import com.supertalk.app.ui.basic_intro_slider.DotsIndicator
 import com.supertalk.app.ui.customwidget.RightBubbleShape
@@ -86,173 +94,198 @@ fun HomeScreen(navController: NavController) {
     )
     {
 
-        Row(
+        Column(
             modifier = Modifier
-                .padding(start = 15.dp, end = 15.dp, top = 15.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+                .verticalScroll(rememberScrollState())
+                .weight(weight = 1f, fill = false)
+
         ) {
 
-            MyProfileImage()
+            Row(
+                modifier = Modifier
+                    .padding(start = 15.dp, end = 15.dp, top = 15.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
 
-            Spacer(modifier = Modifier.width(70.dp))
+                MyProfileImage()
 
-            Row(modifier = Modifier
-                .border(
-                    1.dp, colorResource(id = R.color.border_color),
-                    RoundedCornerShape(8.dp)
-                )
-                .height(28.dp)
-                , verticalAlignment = Alignment.CenterVertically) {
+                Spacer(modifier = Modifier.width(70.dp))
+
+                Row(modifier = Modifier
+                    .border(
+                        1.dp, colorResource(id = R.color.border_color),
+                        RoundedCornerShape(8.dp)
+                    )
+                    .height(28.dp)
+                    , verticalAlignment = Alignment.CenterVertically) {
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_profile_icon),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(20.dp, 20.dp),
+                        tint = colorResource(id = R.color.border_color_yellow)
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(
+                        text = "1,000",
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontSize = 16.sp,
+                            fontFamily = CustomFonts.manrope_semi_bold
+                        ),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_plus_icon),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(16.dp, 16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                }
+
                 Spacer(modifier = Modifier.width(5.dp))
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_profile_icon),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(20.dp, 20.dp),
-                    tint = colorResource(id = R.color.border_color_yellow)
-                )
+
+                Row(modifier = Modifier
+                    .border(
+                        1.dp, colorResource(id = R.color.border_color),
+                        RoundedCornerShape(8.dp)
+                    )
+                    .height(28.dp)
+                    , verticalAlignment = Alignment.CenterVertically) {
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_cup_star),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(18.dp, 18.dp),
+                        tint = colorResource(id = R.color.border_color_yellow)
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(
+                        text = "8",
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontSize = 16.sp,
+                            fontFamily = CustomFonts.manrope_semi_bold
+                        ),
+                        textAlign = TextAlign.Center,
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                }
+
                 Spacer(modifier = Modifier.width(5.dp))
-                Text(
-                    text = "1,000",
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 16.sp,
-                        fontFamily = CustomFonts.manrope_semi_bold
-                    ),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_plus_icon),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(16.dp, 16.dp)
-                )
-                Spacer(modifier = Modifier.width(5.dp))
+
+                Row(modifier = Modifier
+                    .border(
+                        1.dp, colorResource(id = R.color.border_color),
+                        RoundedCornerShape(8.dp)
+                    )
+                    .height(28.dp)
+                    , verticalAlignment = Alignment.CenterVertically) {
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_coin_yellow),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(20.dp, 20.dp),
+                        tint = colorResource(id = R.color.border_color_yellow)
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(
+                        text = "1,000",
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontSize = 16.sp,
+                            fontFamily = CustomFonts.manrope_semi_bold
+                        ),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_plus_icon),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(16.dp, 16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                }
+
             }
 
-            Spacer(modifier = Modifier.width(5.dp))
+            Text(
+                text = "Sports",
+                style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 15.sp,
+                    fontFamily = CustomFonts.manrope_extra_bold
+                ),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 16.dp, top = 10.dp)
+            )
 
-            Row(modifier = Modifier
-                .border(
-                    1.dp, colorResource(id = R.color.border_color),
-                    RoundedCornerShape(8.dp)
-                )
-                .height(28.dp)
-                , verticalAlignment = Alignment.CenterVertically) {
-                Spacer(modifier = Modifier.width(5.dp))
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_cup_star),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(18.dp, 18.dp),
-                            tint = colorResource(id = R.color.border_color_yellow)
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-                Text(
-                    text = "8",
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 16.sp,
-                        fontFamily = CustomFonts.manrope_semi_bold
-                    ),
-                    textAlign = TextAlign.Center,
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-            }
+            customListView(LocalContext.current)
 
-            Spacer(modifier = Modifier.width(5.dp))
 
-            Row(modifier = Modifier
-                .border(
-                    1.dp, colorResource(id = R.color.border_color),
-                    RoundedCornerShape(8.dp)
-                )
-                .height(28.dp)
-                , verticalAlignment = Alignment.CenterVertically) {
-                Spacer(modifier = Modifier.width(5.dp))
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_coin_yellow),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(20.dp, 20.dp),
-                    tint = colorResource(id = R.color.border_color_yellow)
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-                Text(
-                    text = "1,000",
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 16.sp,
-                        fontFamily = CustomFonts.manrope_semi_bold
-                    ),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_plus_icon),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(16.dp, 16.dp)
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-            }
+            Text(
+                text = "Today's Hot Matches",
+                style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 15.sp,
+                    fontFamily = CustomFonts.manrope_extra_bold
+                ),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 16.dp, top = 16.dp)
+            )
+
+            //customViewPagerSlider(LocalContext.current)
+
+
+            HorizontalPagerScreen()
+
+            Spacer(modifier = Modifier.padding(top = 15.dp))
+
+            Divider(
+                color = colorResource(id = R.color.white),
+                modifier = Modifier
+                    .fillMaxWidth()  //fill the max height
+                    .width(1.dp)
+            )
+
+            Spacer(modifier = Modifier.padding(top = 15.dp))
+
+            //Test
+            //customShapeCreate(context = LocalContext.current)
+            //Spacer(modifier = Modifier.padding(top = 15.dp))
+
+            customCurveLayout(LocalContext.current,"Direct Prediction")
+            Spacer(modifier = Modifier.padding(top = 13.dp))
+            customCurveLayout(LocalContext.current,"Live Rooms")
+            Spacer(modifier = Modifier.padding(top = 15.dp))
+
+            Text(
+                text = "News For You",
+                style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 15.sp,
+                    fontFamily = CustomFonts.manrope_extra_bold
+                ),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 16.dp, top = 10.dp)
+            )
+
+            Spacer(modifier = Modifier.padding(top = 6.dp))
+
+            customListViewForNews(LocalContext.current)
+
+            Spacer(modifier = Modifier.padding(top = 20.dp))
 
         }
-
-        Text(
-            text = "Sports",
-            style = TextStyle(
-                color = Color.Black,
-                fontSize = 15.sp,
-                fontFamily = CustomFonts.manrope_extra_bold
-            ),
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(start = 16.dp, top = 10.dp)
-        )
-
-        customListView(LocalContext.current)
-
-
-        Text(
-            text = "Today's Hot Matches",
-            style = TextStyle(
-                color = Color.Black,
-                fontSize = 15.sp,
-                fontFamily = CustomFonts.manrope_extra_bold
-            ),
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp)
-        )
-
-        //customViewPagerSlider(LocalContext.current)
-
-
-        HorizontalPagerScreen()
-
-        Spacer(modifier = Modifier.padding(top = 15.dp))
-
-        Divider(
-            color = colorResource(id = R.color.white),
-            modifier = Modifier
-                .fillMaxWidth()  //fill the max height
-                .width(1.dp)
-        )
-
-        Spacer(modifier = Modifier.padding(top = 15.dp))
-
-        customCurveLayout(LocalContext.current)
-
-        Spacer(modifier = Modifier.padding(top = 10.dp))
-
-        //customCurveLayout(LocalContext.current)
-
-
-        Spacer(modifier = Modifier.weight(1f))
-
 
         BottomNavigation(
             backgroundColor = Color.White,
@@ -593,19 +626,597 @@ fun customListView(context: Context) {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun customCurveLayout(context: Context) {
+fun customListViewForNews(context: Context) {
+
+    val selectedIndex = remember { mutableStateOf(-1) }
+
+    // in the below line, we are creating and
+    // initializing our array list
+    lateinit var newsList: List<NewsDataSet>
+    newsList = ArrayList<NewsDataSet>()
+
+    // in the below line, we are adding data to our list.
+    newsList = newsList + NewsDataSet("Soccer", R.drawable.ic_soccer)
+    newsList = newsList + NewsDataSet("Soccer", R.drawable.ic_soccer)
+    newsList = newsList + NewsDataSet("Soccer", R.drawable.ic_soccer)
+    newsList = newsList + NewsDataSet("Soccer", R.drawable.ic_soccer)
+
+    LazyRow(modifier = Modifier.padding(top = 10.dp)) {
+        itemsIndexed(newsList) { index, item ->
+            Spacer(modifier = Modifier.width(13.dp))
+            Card(
+                onClick = {
+                    // inside on click we are displaying the toast message.
+                    Toast.makeText(
+                        context,
+                        newsList[index].sportsName + " selected..",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    selectedIndex.value = index
+                },
+                modifier = Modifier
+                    .width(288.dp)
+                , shape = RoundedCornerShape(16.dp))
+            {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 15.dp, end = 15.dp),
+                ) {
+                    // in the below line, inside row we are adding spacer
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Row(modifier = Modifier
+                        , verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            // in the below line, we are specifying the drawable image for our image.
+                            painter = painterResource(id = R.drawable.test_barcelona),
+                            contentDescription = "img",
+                            modifier = Modifier
+                                .height(29.dp)
+                                .width(29.dp),
+                            alignment = Alignment.Center
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Image(
+                            // in the below line, we are specifying the drawable image for our image.
+                            painter = painterResource(id = R.drawable.test_real_madrid),
+                            contentDescription = "img",
+                            modifier = Modifier
+                                .height(29.dp)
+                                .width(29.dp),
+                            alignment = Alignment.Center
+                        )
+
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                        ) {
+                            Text(
+                                text = "28/06/2023",
+
+                                style = TextStyle(
+                                    fontSize = 13.sp,
+                                    fontFamily = CustomFonts.manrope_medium
+                                ),
+                                modifier = Modifier.fillMaxWidth(),
+
+                                // in the below line, we are adding color for our text
+                                color = colorResource(id = R.color.text_color),
+                                textAlign = TextAlign.End
+                            )
+
+                            Text(
+                                text = "Emirates Stadium",
+
+                                style = TextStyle(
+                                    fontSize = 13.sp,
+                                    fontFamily = CustomFonts.manrope_medium
+                                ),
+                                modifier = Modifier.fillMaxWidth(),
+
+                                // in the below line, we are adding color for our text
+                                color = colorResource(id = R.color.text_color),
+                                textAlign = TextAlign.End
+                            )
+
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Box(contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize()) {
+                        Image(
+                            painter = painterResource(id = R.drawable.test_img_sports_news),
+                            contentDescription = null,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier
+                                .size(256.dp,130.dp)
+
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Row(modifier = Modifier.fillMaxWidth()
+                        , verticalAlignment = Alignment.CenterVertically
+                        , horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Barcelona",
+
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontSize = 15.sp,
+                                fontFamily = CustomFonts.manrope_extra_bold
+                            ),
+                            modifier = Modifier.wrapContentSize(),
+                        )
+
+                        Text(
+                            text = "2",
+
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontSize = 15.sp,
+                                fontFamily = CustomFonts.manrope_extra_bold
+                            ),
+                            modifier = Modifier.wrapContentSize(),
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(5.dp))
+
+                    Row(modifier = Modifier.fillMaxWidth()
+                        , verticalAlignment = Alignment.CenterVertically
+                        , horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Real Madrid",
+
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontSize = 15.sp,
+                                fontFamily = CustomFonts.manrope_extra_bold
+                            ),
+                            modifier = Modifier.wrapContentSize(),
+                        )
+
+                        Text(
+                            text = "1",
+
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontSize = 15.sp,
+                                fontFamily = CustomFonts.manrope_extra_bold
+                            ),
+                            modifier = Modifier.wrapContentSize(),
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(5.dp))
+
+                    Divider(
+                        color = colorResource(id = R.color.un_selected_background_color),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .width(1.dp)
+                            .padding(top = 10.dp, bottom = 10.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(5.dp))
+
+                    Text(
+                        text = "Lorem ipsum dolor sit amet consectetur. Habitant felis ipsum sollicitudin porttitor pulvinar turpis sem dis eu. Adipiscing viverra dui nunc eget.",
+
+                        style = TextStyle(
+                            color = colorResource(id = R.color.text_color),
+                            fontSize = 14.sp,
+                            fontFamily = CustomFonts.manrope_medium
+                        ),
+                        //textAlign = TextAlign.Start
+                    )
+
+                    Spacer(modifier = Modifier.height(15.dp))
+                }
+            }
+        }
+    }
+}
+
+class CustomBottomRightCornerShape(
+    private val cornerShape: Float,
+    private val cornerSize: Float
+) : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        val path = Path().apply {
+            reset()
+            // 1. Move to x = cornerShape (16), y = 0
+            moveTo(cornerShape, 0f)
+
+            // 2. Draw a line till x = composableWidth + arrowWidth and y = 0
+            lineTo(size.width , 0f)
+
+            arcTo(
+                rect = Rect(
+                    Offset(x = size.width - cornerShape, y = 0f),
+                    Size(width = cornerShape,height = cornerShape)
+                ),
+                startAngleDegrees = 270f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+
+            // 5. Move to bottom now.
+            lineTo(size.width, size.height - cornerSize)
+
+            arcTo(
+                rect = Rect(
+                    offset = Offset(size.width - cornerShape, size.height - cornerSize - cornerShape),
+                    size = Size(cornerShape, cornerShape)
+                ),
+                startAngleDegrees = 0f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+
+            lineTo(size.width-cornerSize, size.height - cornerSize)
+
+//            arcTo(
+//                rect = Rect(
+//                    offset = Offset(size.width-cornerSize, size.height - cornerSize),
+//                    size = Size(cornerShape, cornerShape)
+//                ),
+//                startAngleDegrees = 180f,
+//                sweepAngleDegrees = 90f,
+//                forceMoveTo = false
+//            )
+
+            lineTo(size.width-cornerSize, size.height)
+
+            arcTo(
+                rect = Rect(
+                    offset = Offset(size.width - cornerSize - cornerShape, size.height - cornerShape),
+                    size = Size(cornerShape, cornerShape)
+                ),
+                startAngleDegrees = 0f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+
+            lineTo(0f, size.height)
+
+            arcTo(
+                rect = Rect(
+                    offset = Offset(0f, size.height - cornerShape),
+                    size = Size(cornerShape, cornerShape)
+                ),
+                startAngleDegrees = 90f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+
+            lineTo(0f, 0f)
+
+            arcTo(
+                rect = Rect(
+                    offset = Offset(0f, 0f),
+                    size = Size(cornerShape, cornerShape)
+                ),
+                startAngleDegrees = 180f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+
+            close()
+        }
+        return Outline.Generic(path)
+    }
+}
+
+class CustomShape(
+    private val cornerRadius: Float
+) : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        val path = Path().apply {
+            reset()
+            // Top left arc
+            arcTo(
+                rect = Rect(
+                    left = 20f,
+                    top = 20f,
+                    right = 20f,
+                    bottom = 20f
+                ),
+                startAngleDegrees = 180.0f,
+                sweepAngleDegrees = 90.0f,
+                forceMoveTo = true
+            )
+            lineTo(x = size.width - cornerRadius, y = 0f)
+            // Top right arc
+            arcTo(
+                rect = Rect(
+                    left = size.width - cornerRadius,
+                    top = -cornerRadius,
+                    right = size.width + cornerRadius,
+                    bottom = cornerRadius
+                ),
+                startAngleDegrees = 180.0f,
+                sweepAngleDegrees = -90.0f,
+                forceMoveTo = false
+            )
+            lineTo(x = size.width, y = size.height - cornerRadius)
+            // Bottom right arc
+            arcTo(
+                rect = Rect(
+                    left = size.width - cornerRadius,
+                    top = size.height - cornerRadius,
+                    right = size.width + cornerRadius,
+                    bottom = size.height + cornerRadius
+                ),
+                startAngleDegrees = 270.0f,
+                sweepAngleDegrees = -90.0f,
+                forceMoveTo = false
+            )
+            lineTo(x = cornerRadius, y = size.height)
+            // Bottom left arc
+            arcTo(
+                rect = Rect(
+                    left = -cornerRadius,
+                    top = size.height - cornerRadius,
+                    right = cornerRadius,
+                    bottom = size.height + cornerRadius
+                ),
+                startAngleDegrees = 0.0f,
+                sweepAngleDegrees = -90.0f,
+                forceMoveTo = false
+            )
+            lineTo(x = 0f, y = cornerRadius)
+            close()
+        }
+        return Outline.Generic(path)
+    }
+}
+
+class CustomShape1(
+    private val cornerShape: Float,
+    private val arrowWidth: Float,
+    private val arrowHeight: Float,
+    private val cornerSize: Float
+) : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        val path = Path().apply {
+            reset()
+            // 1. Move to x = cornerShape (16), y = 0
+            moveTo(cornerShape, 0f)
+
+            // 2. Draw a line till x = composableWidth + arrowWidth and y = 0
+            lineTo(size.width , 0f)
+
+            arcTo(
+                rect = Rect(
+                    Offset(x = size.width - cornerShape, y = 0f),
+                    Size(width = cornerShape,height = cornerShape)
+                ),
+                startAngleDegrees = 270f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+
+            // 5. Move to bottom now.
+            lineTo(size.width, size.height - cornerSize)
+
+            arcTo(
+                rect = Rect(
+                    offset = Offset(size.width - cornerShape, size.height - cornerSize - cornerShape),
+                    size = Size(cornerShape, cornerShape)
+                ),
+                startAngleDegrees = 0f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+
+            lineTo(size.width-cornerSize, size.height - cornerSize)
+
+//            arcTo(
+//                rect = Rect(
+//                    offset = Offset(size.width-cornerSize, size.height - cornerSize),
+//                    size = Size(cornerShape, cornerShape)
+//                ),
+//                startAngleDegrees = 180f,
+//                sweepAngleDegrees = 90f,
+//                forceMoveTo = false
+//            )
+
+            lineTo(size.width-cornerSize, size.height)
+
+            arcTo(
+                rect = Rect(
+                    offset = Offset(size.width - cornerSize - cornerShape, size.height - cornerShape),
+                    size = Size(cornerShape, cornerShape)
+                ),
+                startAngleDegrees = 0f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+
+            lineTo(0f, size.height)
+
+            arcTo(
+                rect = Rect(
+                    offset = Offset(0f, size.height - cornerShape),
+                    size = Size(cornerShape, cornerShape)
+                ),
+                startAngleDegrees = 90f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+
+            lineTo(0f, 0f)
+
+            arcTo(
+                rect = Rect(
+                    offset = Offset(0f, 0f),
+                    size = Size(cornerShape, cornerShape)
+                ),
+                startAngleDegrees = 180f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+
+            close()
+        }
+        return Outline.Generic(path)
+    }
+}
+
+
+class CustomShape2(
+    private val cornerShape: Float,
+    private val arrowWidth: Float,
+    private val arrowHeight: Float,
+    private val cornerSize: Float
+) : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        val path = Path().apply {
+            reset()
+            // 1. Move to x = cornerShape (16), y = 0
+            moveTo(cornerShape, 0f)
+
+            // 2. Draw a line till x = composableWidth + arrowWidth and y = 0
+            lineTo(size.width , 0f)
+
+            // 3. From the above animation we can see that we need to draw an arc,
+            // for that we will need to reach top left to draw a rectangle.
+
+            //So we move to rect top left = [x = composable width + arrow width] and y = 0
+
+//            arcTo(
+//                rect = Rect(
+//                    offset = Offset(size.width + arrowWidth, 0f),
+//                    size = Size(10f, 10f)
+//                ),
+//                startAngleDegrees = 270f,
+//                sweepAngleDegrees = 180f,
+//                forceMoveTo = false
+//            )
+
+            arcTo(
+                rect = Rect(
+                    Offset(x = size.width - cornerShape, y = 0f),
+                    Size(width = cornerShape,height = cornerShape)
+                ),
+                startAngleDegrees = 270f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+
+            // 4. Now draw the slanting line
+            //lineTo(size.width, arrowHeight)
+
+            // 5. Move to bottom now.
+            lineTo(size.width, size.height - cornerShape)
+
+            // 6. Again draw the bottom left arc pointing the top left x & y coordinates
+            arcTo(
+                rect = Rect(
+                    offset = Offset(size.width - cornerShape, size.height - cornerShape),
+                    size = Size(cornerShape, cornerShape)
+                ),
+                startAngleDegrees = 0f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+
+            // 7. Now draw the bottom line from left to right side
+            lineTo(size.width - cornerShape, size.height)
+
+            // 8. Again draw the bottom right arc pointing the top left x & y coordinates
+            arcTo(
+                rect = Rect(
+                    offset = Offset(0f, size.height - cornerShape),
+                    size = Size(cornerShape, cornerShape)
+                ),
+                startAngleDegrees = 90f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+
+            //9. Draw the bottom to top line on right side
+            lineTo(0f, cornerShape)
+
+            //Draw the final top right arc and Wola!!!!
+            arcTo(
+                rect = Rect(
+                    offset = Offset(0f, 0f),
+                    size = Size(cornerShape, cornerShape)
+                ),
+                startAngleDegrees = 180f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+            close()
+        }
+        return Outline.Generic(path)
+    }
+}
+
+
+@Composable
+fun customShapeCreate(context: Context) {
+    val cornerShape = with(LocalDensity.current) { 20.dp.toPx() }
+    val arrowWidth = with(LocalDensity.current) { 8.dp.toPx() }
+    val arrowHeight = with(LocalDensity.current) { 12.dp.toPx() }
+
+    val size = with(LocalDensity.current) { 47.dp.toPx() }
     Box(
         modifier = Modifier
-            .padding(start = 15.dp, end = 15.dp, top = 15.dp)
+            .padding(start = 15.dp, end = 15.dp)
             .fillMaxWidth()
             .height(102.dp)
-            .background(Color.White, RoundedCornerShape(18.dp)),
+            .background(Color.White, CustomShape1(cornerShape, arrowWidth, arrowHeight, size)),
+        contentAlignment = Alignment.Center
+    ) {
+
+    }
+}
+
+@Composable
+fun customCurveLayout(context: Context,text:String) {
+
+    val cornerShape = with(LocalDensity.current) { 30.dp.toPx() }
+    val size = with(LocalDensity.current) { 50.dp.toPx() }
+
+    Box(
+        modifier = Modifier
+            .padding(start = 15.dp, end = 15.dp)
+            .fillMaxWidth()
+            .height(102.dp)
+            .background(Color.White, CustomBottomRightCornerShape(cornerShape, size)),
         contentAlignment = Alignment.Center
     ) {
 
         Text(
-            text = "Direct Prediction",
+            text = text,
 
             style = TextStyle(
                 color = Color.Black,
@@ -632,7 +1243,7 @@ fun customCurveLayout(context: Context) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_right_arrow_white),
                 contentDescription = "",
-                modifier = Modifier.size(18.dp,18.dp),
+                modifier = Modifier.size(15.dp,15.dp),
                 tint = Color.Unspecified
 
             )

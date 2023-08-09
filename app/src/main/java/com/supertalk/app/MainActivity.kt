@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = NavDestinations.SPLASH_SCREEN,
+                        startDestination = NavDestinations.HOME_SCREEN,
                     ) {
                         composable(NavDestinations.SPLASH_SCREEN) {
                             SplashScreen(navController)
