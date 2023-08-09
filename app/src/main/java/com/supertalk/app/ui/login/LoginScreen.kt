@@ -51,6 +51,7 @@ import com.supertalk.app.ui.customwidget.RoundedBoxWithPhonePickerAndTextField
 import com.supertalk.app.ui.customwidget.TermsAndConditionsCheckbox
 import com.supertalk.app.ui.theme.SuperTalkApplicationTheme
 import com.supertalk.app.util.CustomFonts
+import com.supertalk.app.util.NavDestinations
 
 
 @Composable
@@ -174,6 +175,7 @@ fun LoginScreen(navController: NavController) {
             // Login button
             Button(
                 onClick = {
+                    navController.navigate(NavDestinations.REGISTRATION_OTP_SCREEN)
                 },
                 elevation = ButtonDefaults.elevation(
                     defaultElevation = 15.dp,

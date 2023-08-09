@@ -182,8 +182,8 @@ fun ButtonWithElevation(navController: NavController,mPageCount : MutableState<I
             mPageCount.value += 1
         } else{
             if(mPageCount.value >= 2){
-                navController.navigate(NavDestinations.REGISTRATION_OTP_SCREEN)
-                //navController.navigate(NavDestinations.LOGIN_SCREEN)
+               // navController.navigate(NavDestinations.REGISTRATION_OTP_SCREEN)
+                navController.navigate(NavDestinations.LOGIN_SCREEN)
             }
         }
     },elevation =  ButtonDefaults.elevation(

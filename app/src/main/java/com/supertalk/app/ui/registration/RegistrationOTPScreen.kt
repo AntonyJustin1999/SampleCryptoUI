@@ -33,6 +33,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,6 +55,7 @@ import com.supertalk.app.ui.theme.SuperTalkApplicationTheme
 import com.supertalk.app.util.CustomFonts
 import com.supertalk.app.util.NavDestinations
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun RegistrationOTPScreen(navController: NavController) {
@@ -270,11 +272,15 @@ private fun OTPTextField(inputValue:String,wrongCode:MutableState<Boolean>){
 
 @Composable
 fun ButtonWithElevation(navController: NavController,wrongCode:MutableState<Boolean>) {
-
+    val scope = rememberCoroutineScope()
     Button(
         onClick = {
             wrongCode.value = true
-            navController.navigate(NavDestinations.REGISTRATION_OTP_SCREEN)
+            scope.launch {
+                delay(2000) // Introduce a 2-second delay using delay() function
+                navController.navigate(NavDestinations.SPORTS_SELECTION_SCREEN)
+            }
+
         },
         elevation = ButtonDefaults.elevation(
             defaultElevation = 15.dp,
