@@ -74,6 +74,7 @@ class MainActivity : ComponentActivity() {
                         composable(NavDestinations.ACCOUNT_CREATION_SUCCESS_SCREEN) {
                             AccountCreationSuccessScreen(navController)
                         }
+
                         composable(NavDestinations.ROOM_CREATION_SCREEN) {
                             RoomCreationScreen(navController)
                         }
