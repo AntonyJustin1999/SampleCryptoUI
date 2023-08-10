@@ -341,6 +341,7 @@ fun RoomCreationScreen(navController: NavHostController) {
                                     } else {
                                         Color(0xff7C8396)
                                     }
+
                                 ),
                             alignment = Alignment.CenterStart
                         )
