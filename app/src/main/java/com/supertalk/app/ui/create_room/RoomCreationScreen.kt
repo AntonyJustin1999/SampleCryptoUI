@@ -334,7 +334,7 @@ fun RoomCreationScreen(navController: NavHostController) {
                             contentDescription = "Sample Image",
                             modifier = Modifier
                                 .size(35.dp)
-                                .clip(CircleShape)
+                                .clip(CircleShape).padding(5.dp)
                                 .background(
                                     color = if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
                                         Color.Transparent
@@ -387,6 +387,110 @@ fun RoomCreationScreen(navController: NavHostController) {
                         }
 
                     }
+                }
+            }
+            Text(
+                text = "Select Country",
+                modifier = Modifier.fillMaxWidth().padding(start = 15.dp),
+                textAlign = TextAlign.Start,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                color = Color.Black,
+            )
+            Card(
+                modifier = Modifier
+                    .padding(18.dp)
+                    .fillMaxWidth()
+                    .background(
+                        color = if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                            Color.Transparent
+                        } else {
+                            Color(0xff7C8396)
+                        }
+                    )
+                    .wrapContentHeight(), // Make the item clickable
+                shape = RoundedCornerShape(18.dp),
+                onClick = {
+                    coroutineScope.launch {
+                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        } else {
+
+                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                        }
+                    }
+                },
+                elevation = 2.dp, // Apply elevation when selected
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            color = if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                Color.White
+                            } else {
+                                Color(0xff7C8396)
+                            }
+                        )
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_thajikistan_flag),
+                        contentDescription = "Sample Image",
+                        modifier = Modifier
+                            .size(35.dp)
+                            .clip(CircleShape).padding(5.dp)
+                            .background(
+                                color = if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                    Color.Transparent
+                                } else {
+                                    Color(0xff7C8396)
+                                }
+                            ),
+                        alignment = Alignment.CenterStart
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = "Thajikistan",
+                        modifier = Modifier.padding(16.dp)
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Card(
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .wrapContentSize(), // Make the item clickable
+                        shape = RoundedCornerShape(8.dp),
+                        elevation = 2.dp, // Apply elevation when selected
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .background(
+                                    color = if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                        Color(0xff623CBB)
+                                    } else {
+                                        Color(0xff7C8396)
+                                    }
+                                )
+                                .height(35.dp)
+                                .width(35.dp),
+                            contentAlignment = Alignment.Center,
+
+                            ) {
+                            Image(
+                                painter = painterResource(id = if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                                    (R.drawable.ic_arrow)
+                                } else {
+                                    (R.drawable.ic_arrow_up)
+                                }),
+                                contentDescription = "Sample Image",
+                                modifier = Modifier
+                                    .size(25.dp), contentScale = ContentScale.Crop,
+                                alignment = Alignment.Center
+                            )
+                        }
+
+                    }
+
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
