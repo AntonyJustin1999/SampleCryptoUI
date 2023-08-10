@@ -37,6 +37,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -79,6 +80,7 @@ import com.supertalk.app.ui.basic_intro_slider.DotsIndicator
 import com.supertalk.app.ui.customwidget.RightBubbleShape
 import com.supertalk.app.ui.theme.SuperTalkApplicationTheme
 import com.supertalk.app.util.CustomFonts
+import com.supertalk.app.util.NavDestinations
 import kotlinx.coroutines.launch
 
 @Composable
@@ -97,126 +99,11 @@ fun HomeScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .weight(weight = 1f, fill = false)
+                .weight(weight = 1f, fill = false)) {
 
-        ) {
+            TopRow()
 
-            Row(
-                modifier = Modifier
-                    .padding(start = 15.dp, end = 15.dp, top = 15.dp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-
-                MyProfileImage()
-
-                Spacer(modifier = Modifier.width(70.dp))
-
-                Row(modifier = Modifier
-                    .border(
-                        1.dp, colorResource(id = R.color.border_color),
-                        RoundedCornerShape(8.dp)
-                    )
-                    .height(28.dp)
-                    , verticalAlignment = Alignment.CenterVertically) {
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_profile_icon),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(20.dp, 20.dp),
-                        tint = colorResource(id = R.color.border_color_yellow)
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(
-                        text = "1,000",
-                        style = TextStyle(
-                            color = Color.Black,
-                            fontSize = 16.sp,
-                            fontFamily = CustomFonts.manrope_semi_bold
-                        ),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_plus_icon),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(16.dp, 16.dp)
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                }
-
-                Spacer(modifier = Modifier.width(5.dp))
-
-                Row(modifier = Modifier
-                    .border(
-                        1.dp, colorResource(id = R.color.border_color),
-                        RoundedCornerShape(8.dp)
-                    )
-                    .height(28.dp)
-                    , verticalAlignment = Alignment.CenterVertically) {
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_cup_star),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(18.dp, 18.dp),
-                        tint = colorResource(id = R.color.border_color_yellow)
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(
-                        text = "8",
-                        style = TextStyle(
-                            color = Color.Black,
-                            fontSize = 16.sp,
-                            fontFamily = CustomFonts.manrope_semi_bold
-                        ),
-                        textAlign = TextAlign.Center,
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                }
-
-                Spacer(modifier = Modifier.width(5.dp))
-
-                Row(modifier = Modifier
-                    .border(
-                        1.dp, colorResource(id = R.color.border_color),
-                        RoundedCornerShape(8.dp)
-                    )
-                    .height(28.dp)
-                    , verticalAlignment = Alignment.CenterVertically) {
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_coin_yellow),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(20.dp, 20.dp),
-                        tint = colorResource(id = R.color.border_color_yellow)
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(
-                        text = "1,000",
-                        style = TextStyle(
-                            color = Color.Black,
-                            fontSize = 16.sp,
-                            fontFamily = CustomFonts.manrope_semi_bold
-                        ),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_plus_icon),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(16.dp, 16.dp)
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                }
-
-            }
+            Spacer(modifier = Modifier.padding(top = 10.dp))
 
             Text(
                 text = "Sports",
@@ -226,11 +113,14 @@ fun HomeScreen(navController: NavController) {
                     fontFamily = CustomFonts.manrope_extra_bold
                 ),
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(start = 16.dp, top = 10.dp)
+                modifier = Modifier.padding(start = 16.dp)
             )
+
+            Spacer(modifier = Modifier.padding(top = 10.dp))
 
             customListView(LocalContext.current)
 
+            Spacer(modifier = Modifier.padding(top = 16.dp))
 
             Text(
                 text = "Today's Hot Matches",
@@ -240,13 +130,10 @@ fun HomeScreen(navController: NavController) {
                     fontFamily = CustomFonts.manrope_extra_bold
                 ),
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(start = 16.dp, top = 16.dp)
+                modifier = Modifier.padding(start = 16.dp)
             )
 
-            //customViewPagerSlider(LocalContext.current)
-
-
-            HorizontalPagerScreen()
+            HorizontalPager()
 
             Spacer(modifier = Modifier.padding(top = 15.dp))
 
@@ -258,10 +145,6 @@ fun HomeScreen(navController: NavController) {
             )
 
             Spacer(modifier = Modifier.padding(top = 15.dp))
-
-            //Test
-            //customShapeCreate(context = LocalContext.current)
-            //Spacer(modifier = Modifier.padding(top = 15.dp))
 
             customCurveLayout(LocalContext.current,"Direct Prediction")
             Spacer(modifier = Modifier.padding(top = 13.dp))
@@ -281,175 +164,13 @@ fun HomeScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.padding(top = 6.dp))
 
-            customListViewForNews(LocalContext.current)
+            customListViewForNews(LocalContext.current,navController)
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
         }
 
-        BottomNavigation(
-            backgroundColor = Color.White,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp)
-                .clip(RoundedCornerShape(28.dp, 28.dp, 0.dp, 0.dp)),
-        ) {
-            BottomNavigationItem(
-                icon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_solar_home),
-                        contentDescription = "Home",
-                        modifier = Modifier
-                            .size(28.dp)
-                            .padding(bottom = 5.dp),
-                        tint = if(selectedMenu.value == 0) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
-                    )
-                },
-                label = {
-                    Text(
-                        text = "Home",
-                        style = TextStyle(
-                            color = if(selectedMenu.value == 0) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
-                            fontSize = 13.sp,
-                            fontFamily = CustomFonts.manrope_extra_bold
-                        ),
-
-                    )
-                    },
-                selected = selectedMenu.value == 0,
-                onClick = {
-                    selectedMenu.value = 0
-                },
-                alwaysShowLabel = true,
-                selectedContentColor = colorResource(id = R.color.violet_dark),
-                unselectedContentColor = colorResource(id = R.color.un_selected_background_color),
-                modifier = Modifier.padding(bottom = 10.dp)
-            )
-
-            BottomNavigationItem(
-                icon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_number_1),
-                        contentDescription = "Room",
-                        modifier = Modifier
-                            .size(28.dp)
-                            .padding(bottom = 5.dp),
-                        tint = if(selectedMenu.value == 1) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
-                    )
-                },
-                label = {
-                    Text(
-                        text = "Room",
-                        style = TextStyle(
-                            color = if(selectedMenu.value == 1) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
-                            fontSize = 13.sp,
-                            fontFamily = CustomFonts.manrope_extra_bold
-                        ),
-                        )
-                },
-                selected = selectedMenu.value == 1,
-                onClick = {
-                    selectedMenu.value = 1
-                },
-                alwaysShowLabel = true,
-                selectedContentColor = colorResource(id = R.color.violet_dark),
-                unselectedContentColor = colorResource(id = R.color.un_selected_background_color),
-                modifier = Modifier.padding(bottom = 10.dp)
-            )
-
-            BottomNavigationItem(
-                icon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_number_2),
-                        contentDescription = "Room",
-                        modifier = Modifier
-                            .size(28.dp)
-                            .padding(bottom = 5.dp),
-                        tint = if(selectedMenu.value == 2) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
-                    )
-                },
-                label = {
-                    Text(
-                        text = "Room",
-                        style = TextStyle(
-                            color = if(selectedMenu.value == 2) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
-                            fontSize = 13.sp,
-                            fontFamily = CustomFonts.manrope_extra_bold
-                        ),
-                    )
-                },
-                selected = selectedMenu.value == 2,
-                onClick = {
-                    selectedMenu.value = 2
-                },
-                alwaysShowLabel = true,
-                selectedContentColor = colorResource(id = R.color.violet_dark),
-                unselectedContentColor = colorResource(id = R.color.un_selected_background_color),
-                modifier = Modifier.padding(bottom = 10.dp)
-            )
-
-            BottomNavigationItem(
-                icon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_number_3),
-                        contentDescription = "Room",
-                        modifier = Modifier
-                            .size(28.dp)
-                            .padding(bottom = 5.dp),
-                        tint = if(selectedMenu.value == 3) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
-                    )
-                },
-                label = {
-                    Text(
-                        text = "Room",
-                        style = TextStyle(
-                            color = if(selectedMenu.value == 3) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
-                            fontSize = 13.sp,
-                            fontFamily = CustomFonts.manrope_extra_bold
-                        ),
-                    )
-                },
-                selected = selectedMenu.value == 3,
-                onClick = {
-                    selectedMenu.value = 3
-                },
-                alwaysShowLabel = true,
-                selectedContentColor = colorResource(id = R.color.violet_dark),
-                unselectedContentColor = colorResource(id = R.color.un_selected_background_color),
-                modifier = Modifier.padding(bottom = 10.dp)
-            )
-
-            BottomNavigationItem(
-                icon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_number_4),
-                        contentDescription = "Room",
-                        modifier = Modifier
-                            .size(28.dp)
-                            .padding(bottom = 5.dp),
-                        tint = if(selectedMenu.value == 4) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
-                    )
-                },
-                label = {
-                    Text(
-                        text = "Room",
-                        style = TextStyle(
-                            color = if(selectedMenu.value == 4) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
-                            fontSize = 13.sp,
-                            fontFamily = CustomFonts.manrope_extra_bold
-                        ),
-                    )
-                },
-                selected = selectedMenu.value == 4,
-                onClick = {
-                    selectedMenu.value = 4
-                },
-                alwaysShowLabel = true,
-                selectedContentColor = colorResource(id = R.color.violet_dark),
-                unselectedContentColor = colorResource(id = R.color.un_selected_background_color),
-                modifier = Modifier.padding(bottom = 10.dp)
-            )
-        }
+        BottomNavigationBar(selectedMenu)
 
     }
 }
@@ -481,59 +202,8 @@ private fun MyProfileImage() {
             tint = Color.Unspecified
 
         )
-
-//        Button(
-//            modifier = Modifier.align(Alignment.TopEnd)
-//                .offset {
-//                    IntOffset(x =30, y = -30)
-//                },
-//            onClick = {}
-//        ) {
-//            Text("A Button")
-//        }
     }
 }
-
-@Composable
-private fun MyProfileImage1() {
-
-    val iconSize = 96.dp
-    val offsetInPx = LocalDensity.current.run { (iconSize / 2).roundToPx() }
-
-    Box(modifier = Modifier.padding((iconSize / 2))) {
-
-        Card {
-            Image(
-                painter = painterResource(id = R.drawable.test_profile),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .size(54.dp, 54.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .border(width = 2.dp, Color.White, shape = RoundedCornerShape(12.dp)),
-            )
-        }
-
-        IconButton(
-            onClick = {},
-            modifier = Modifier
-                .offset {
-                    IntOffset(x = +offsetInPx, y = -offsetInPx)
-                }
-                .size(iconSize)
-                .align(Alignment.TopEnd)
-                .padding(top = 15.dp, end = 15.dp)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_discount_tick),
-                tint = colorResource(id = R.color.violet_dark),
-                contentDescription = "",
-            )
-        }
-    }
-}
-
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun customListView(context: Context) {
@@ -551,7 +221,7 @@ fun customListView(context: Context) {
     sportsList = sportsList + SportsDataSet("Basketball", R.drawable.ic_basketball)
     sportsList = sportsList + SportsDataSet("Cricket", R.drawable.ic_cricket)
 
-    LazyRow(modifier = Modifier.padding(start = 16.dp, top = 10.dp, end = 16.dp)) {
+    LazyRow(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
         itemsIndexed(sportsList) { index, item ->
             Card(
                 onClick = {
@@ -628,7 +298,7 @@ fun customListView(context: Context) {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun customListViewForNews(context: Context) {
+fun customListViewForNews(context: Context,navController: NavController) {
 
     val selectedIndex = remember { mutableStateOf(-1) }
 
@@ -648,13 +318,7 @@ fun customListViewForNews(context: Context) {
             Spacer(modifier = Modifier.width(13.dp))
             Card(
                 onClick = {
-                    // inside on click we are displaying the toast message.
-                    Toast.makeText(
-                        context,
-                        newsList[index].sportsName + " selected..",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    selectedIndex.value = index
+                    navController.navigate(NavDestinations.NEWS_DETAILS_SCREEN)
                 },
                 modifier = Modifier
                     .width(288.dp)
@@ -829,7 +493,7 @@ fun customListViewForNews(context: Context) {
 
 class CustomBottomRightCornerShape(
     private val cornerShape: Float,
-    private val cornerSize: Float
+    private val bottomBoxSize: Float
 ) : Shape {
     override fun createOutline(
         size: Size,
@@ -855,11 +519,11 @@ class CustomBottomRightCornerShape(
             )
 
             // 5. Move to bottom now.
-            lineTo(size.width, size.height - cornerSize)
+            lineTo(size.width, size.height - bottomBoxSize)
 
             arcTo(
                 rect = Rect(
-                    offset = Offset(size.width - cornerShape, size.height - cornerSize - cornerShape),
+                    offset = Offset(size.width - cornerShape, size.height - bottomBoxSize - cornerShape),
                     size = Size(cornerShape, cornerShape)
                 ),
                 startAngleDegrees = 0f,
@@ -867,23 +531,23 @@ class CustomBottomRightCornerShape(
                 forceMoveTo = false
             )
 
-            lineTo(size.width-cornerSize, size.height - cornerSize)
-
-//            arcTo(
-//                rect = Rect(
-//                    offset = Offset(size.width-cornerSize, size.height - cornerSize),
-//                    size = Size(cornerShape, cornerShape)
-//                ),
-//                startAngleDegrees = 180f,
-//                sweepAngleDegrees = 90f,
-//                forceMoveTo = false
-//            )
-
-            lineTo(size.width-cornerSize, size.height)
+            lineTo(size.width-bottomBoxSize, size.height - bottomBoxSize)
 
             arcTo(
                 rect = Rect(
-                    offset = Offset(size.width - cornerSize - cornerShape, size.height - cornerShape),
+                    offset = Offset(size.width-bottomBoxSize, size.height - bottomBoxSize),
+                    size = Size(cornerShape, cornerShape)
+                ),
+                startAngleDegrees = 270f,
+                sweepAngleDegrees = -90f,
+                forceMoveTo = false
+            )
+
+            lineTo(size.width-bottomBoxSize, size.height)
+
+            arcTo(
+                rect = Rect(
+                    offset = Offset(size.width - bottomBoxSize - cornerShape, size.height - cornerShape),
                     size = Size(cornerShape, cornerShape)
                 ),
                 startAngleDegrees = 0f,
@@ -920,286 +584,6 @@ class CustomBottomRightCornerShape(
         return Outline.Generic(path)
     }
 }
-
-class CustomShape(
-    private val cornerRadius: Float
-) : Shape {
-    override fun createOutline(
-        size: Size,
-        layoutDirection: LayoutDirection,
-        density: Density
-    ): Outline {
-        val path = Path().apply {
-            reset()
-            // Top left arc
-            arcTo(
-                rect = Rect(
-                    left = 20f,
-                    top = 20f,
-                    right = 20f,
-                    bottom = 20f
-                ),
-                startAngleDegrees = 180.0f,
-                sweepAngleDegrees = 90.0f,
-                forceMoveTo = true
-            )
-            lineTo(x = size.width - cornerRadius, y = 0f)
-            // Top right arc
-            arcTo(
-                rect = Rect(
-                    left = size.width - cornerRadius,
-                    top = -cornerRadius,
-                    right = size.width + cornerRadius,
-                    bottom = cornerRadius
-                ),
-                startAngleDegrees = 180.0f,
-                sweepAngleDegrees = -90.0f,
-                forceMoveTo = false
-            )
-            lineTo(x = size.width, y = size.height - cornerRadius)
-            // Bottom right arc
-            arcTo(
-                rect = Rect(
-                    left = size.width - cornerRadius,
-                    top = size.height - cornerRadius,
-                    right = size.width + cornerRadius,
-                    bottom = size.height + cornerRadius
-                ),
-                startAngleDegrees = 270.0f,
-                sweepAngleDegrees = -90.0f,
-                forceMoveTo = false
-            )
-            lineTo(x = cornerRadius, y = size.height)
-            // Bottom left arc
-            arcTo(
-                rect = Rect(
-                    left = -cornerRadius,
-                    top = size.height - cornerRadius,
-                    right = cornerRadius,
-                    bottom = size.height + cornerRadius
-                ),
-                startAngleDegrees = 0.0f,
-                sweepAngleDegrees = -90.0f,
-                forceMoveTo = false
-            )
-            lineTo(x = 0f, y = cornerRadius)
-            close()
-        }
-        return Outline.Generic(path)
-    }
-}
-
-class CustomShape1(
-    private val cornerShape: Float,
-    private val arrowWidth: Float,
-    private val arrowHeight: Float,
-    private val cornerSize: Float
-) : Shape {
-    override fun createOutline(
-        size: Size,
-        layoutDirection: LayoutDirection,
-        density: Density
-    ): Outline {
-        val path = Path().apply {
-            reset()
-            // 1. Move to x = cornerShape (16), y = 0
-            moveTo(cornerShape, 0f)
-
-            // 2. Draw a line till x = composableWidth + arrowWidth and y = 0
-            lineTo(size.width , 0f)
-
-            arcTo(
-                rect = Rect(
-                    Offset(x = size.width - cornerShape, y = 0f),
-                    Size(width = cornerShape,height = cornerShape)
-                ),
-                startAngleDegrees = 270f,
-                sweepAngleDegrees = 90f,
-                forceMoveTo = false
-            )
-
-            // 5. Move to bottom now.
-            lineTo(size.width, size.height - cornerSize)
-
-            arcTo(
-                rect = Rect(
-                    offset = Offset(size.width - cornerShape, size.height - cornerSize - cornerShape),
-                    size = Size(cornerShape, cornerShape)
-                ),
-                startAngleDegrees = 0f,
-                sweepAngleDegrees = 90f,
-                forceMoveTo = false
-            )
-
-            lineTo(size.width-cornerSize, size.height - cornerSize)
-
-//            arcTo(
-//                rect = Rect(
-//                    offset = Offset(size.width-cornerSize, size.height - cornerSize),
-//                    size = Size(cornerShape, cornerShape)
-//                ),
-//                startAngleDegrees = 180f,
-//                sweepAngleDegrees = 90f,
-//                forceMoveTo = false
-//            )
-
-            lineTo(size.width-cornerSize, size.height)
-
-            arcTo(
-                rect = Rect(
-                    offset = Offset(size.width - cornerSize - cornerShape, size.height - cornerShape),
-                    size = Size(cornerShape, cornerShape)
-                ),
-                startAngleDegrees = 0f,
-                sweepAngleDegrees = 90f,
-                forceMoveTo = false
-            )
-
-            lineTo(0f, size.height)
-
-            arcTo(
-                rect = Rect(
-                    offset = Offset(0f, size.height - cornerShape),
-                    size = Size(cornerShape, cornerShape)
-                ),
-                startAngleDegrees = 90f,
-                sweepAngleDegrees = 90f,
-                forceMoveTo = false
-            )
-
-            lineTo(0f, 0f)
-
-            arcTo(
-                rect = Rect(
-                    offset = Offset(0f, 0f),
-                    size = Size(cornerShape, cornerShape)
-                ),
-                startAngleDegrees = 180f,
-                sweepAngleDegrees = 90f,
-                forceMoveTo = false
-            )
-
-            close()
-        }
-        return Outline.Generic(path)
-    }
-}
-
-
-class CustomShape2(
-    private val cornerShape: Float,
-    private val arrowWidth: Float,
-    private val arrowHeight: Float,
-    private val cornerSize: Float
-) : Shape {
-    override fun createOutline(
-        size: Size,
-        layoutDirection: LayoutDirection,
-        density: Density
-    ): Outline {
-        val path = Path().apply {
-            reset()
-            // 1. Move to x = cornerShape (16), y = 0
-            moveTo(cornerShape, 0f)
-
-            // 2. Draw a line till x = composableWidth + arrowWidth and y = 0
-            lineTo(size.width , 0f)
-
-            // 3. From the above animation we can see that we need to draw an arc,
-            // for that we will need to reach top left to draw a rectangle.
-
-            //So we move to rect top left = [x = composable width + arrow width] and y = 0
-
-//            arcTo(
-//                rect = Rect(
-//                    offset = Offset(size.width + arrowWidth, 0f),
-//                    size = Size(10f, 10f)
-//                ),
-//                startAngleDegrees = 270f,
-//                sweepAngleDegrees = 180f,
-//                forceMoveTo = false
-//            )
-
-            arcTo(
-                rect = Rect(
-                    Offset(x = size.width - cornerShape, y = 0f),
-                    Size(width = cornerShape,height = cornerShape)
-                ),
-                startAngleDegrees = 270f,
-                sweepAngleDegrees = 90f,
-                forceMoveTo = false
-            )
-
-            // 4. Now draw the slanting line
-            //lineTo(size.width, arrowHeight)
-
-            // 5. Move to bottom now.
-            lineTo(size.width, size.height - cornerShape)
-
-            // 6. Again draw the bottom left arc pointing the top left x & y coordinates
-            arcTo(
-                rect = Rect(
-                    offset = Offset(size.width - cornerShape, size.height - cornerShape),
-                    size = Size(cornerShape, cornerShape)
-                ),
-                startAngleDegrees = 0f,
-                sweepAngleDegrees = 90f,
-                forceMoveTo = false
-            )
-
-            // 7. Now draw the bottom line from left to right side
-            lineTo(size.width - cornerShape, size.height)
-
-            // 8. Again draw the bottom right arc pointing the top left x & y coordinates
-            arcTo(
-                rect = Rect(
-                    offset = Offset(0f, size.height - cornerShape),
-                    size = Size(cornerShape, cornerShape)
-                ),
-                startAngleDegrees = 90f,
-                sweepAngleDegrees = 90f,
-                forceMoveTo = false
-            )
-
-            //9. Draw the bottom to top line on right side
-            lineTo(0f, cornerShape)
-
-            //Draw the final top right arc and Wola!!!!
-            arcTo(
-                rect = Rect(
-                    offset = Offset(0f, 0f),
-                    size = Size(cornerShape, cornerShape)
-                ),
-                startAngleDegrees = 180f,
-                sweepAngleDegrees = 90f,
-                forceMoveTo = false
-            )
-            close()
-        }
-        return Outline.Generic(path)
-    }
-}
-
-
-@Composable
-fun customShapeCreate(context: Context) {
-    val cornerShape = with(LocalDensity.current) { 20.dp.toPx() }
-    val arrowWidth = with(LocalDensity.current) { 8.dp.toPx() }
-    val arrowHeight = with(LocalDensity.current) { 12.dp.toPx() }
-
-    val size = with(LocalDensity.current) { 47.dp.toPx() }
-    Box(
-        modifier = Modifier
-            .padding(start = 15.dp, end = 15.dp)
-            .fillMaxWidth()
-            .height(102.dp)
-            .background(Color.White, CustomShape1(cornerShape, arrowWidth, arrowHeight, size)),
-        contentAlignment = Alignment.Center
-    ) {
-
-    }
-}
-
 @Composable
 fun customCurveLayout(context: Context,text:String) {
 
@@ -1258,7 +642,7 @@ fun customViewPagerSlider(context: Context) {
         Modifier
             .fillMaxWidth()
             .background(color = colorResource(R.color.background))
-            //.padding(start = 15.dp, end = 15.dp, top = 15.dp),
+        //.padding(start = 15.dp, end = 15.dp, top = 15.dp),
     )
     {
 
@@ -1313,16 +697,17 @@ fun customViewPagerSlider(context: Context) {
                         .padding(top = 10.dp, bottom = 10.dp)
                 )
 
-                Column(modifier = Modifier
-                    .size(111.dp, 44.dp)
-                    .border(
-                        1.dp, colorResource(id = R.color.border_color),
-                        RoundedCornerShape(11.dp)
-                    )
-                    .background(
-                        color = colorResource(id = R.color.white),
-                        RoundedCornerShape(11.dp)
-                    )
+                Column(
+                    modifier = Modifier
+                        .size(111.dp, 44.dp)
+                        .border(
+                            1.dp, colorResource(id = R.color.border_color),
+                            RoundedCornerShape(11.dp)
+                        )
+                        .background(
+                            color = colorResource(id = R.color.white),
+                            RoundedCornerShape(11.dp)
+                        )
                 ) {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
@@ -1393,9 +778,9 @@ fun customViewPagerSlider(context: Context) {
                 .background(
                     colorResource(id = R.color.border_color_yellow),
                     RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
-                )
-            ,verticalAlignment = Alignment.CenterVertically
-            , horizontalArrangement = Arrangement.Center
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "1,982 Rooms Created",
@@ -1408,122 +793,9 @@ fun customViewPagerSlider(context: Context) {
 
     }
 }
-
-@Composable
-fun customLayout(context: Context) {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(20.dp)) {
-        val shape = GenericShape { size: Size, layoutDirection: LayoutDirection ->
-            val width = size.width
-            val height = size.height
-
-            addArc(
-                oval = Rect(
-                    offset = Offset.Zero,
-                    size = Size(height, height)
-                ),
-                startAngleDegrees = 90f,
-                sweepAngleDegrees = 180f,
-            )
-            lineTo(width, 0f)
-            lineTo(width, height)
-            lineTo(height, height)
-
-        }
-
-        Box(
-            modifier = Modifier
-                .size(300.dp, 100.dp)
-                .clip(shape)
-                .drawWithContent {
-
-                    val width = size.width
-                    val height = size.height
-                    // Change this as required, ra
-                    val radius = 80f
-
-
-                    with(drawContext.canvas.nativeCanvas) {
-                        val checkPoint = saveLayer(null, null)
-                        // Destination
-                        drawContent()
-
-                        // Source
-                        drawArc(
-                            color = Color.Transparent,
-                            startAngle = 90f,
-                            sweepAngle = 180f,
-                            topLeft = Offset(
-                                width - radius, 0f
-                            ),
-                            size = Size(2 * radius, height),
-                            useCenter = false,
-                            blendMode = BlendMode.SrcOut
-                        )
-                        restoreToCount(checkPoint)
-                    }
-                }
-                .background(Color.Green)
-                .clickable {
-
-                }
-        )
-    }
-
-}
-
-@Composable
-fun MessageBox(message: String) {
-    val cornerShape = with(LocalDensity.current) { 16.dp.toPx() }
-    val arrowWidth = with(LocalDensity.current) { 8.dp.toPx() }
-    val arrowHeight = with(LocalDensity.current) { 12.dp.toPx() }
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(end = 46.dp, start = 10.dp),
-        horizontalAlignment = Alignment.End
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .drawRightBubble(
-                    cornerShape = cornerShape,
-                    arrowWidth = arrowWidth,
-                    arrowHeight = arrowHeight,
-                    bubbleColor = Color.Green
-                )
-        ) {
-            Text(
-                text = message,
-                modifier = Modifier.padding(8.dp),
-                fontSize = 14.sp,
-                color = Color.Black
-            )
-        }
-    }
-}
-
-fun Modifier.drawRightBubble(
-    bubbleColor: Color,
-    cornerShape: Float,
-    arrowWidth: Float,
-    arrowHeight: Float
-) = then(
-    background(
-        color = bubbleColor,
-        shape = RightBubbleShape(
-            cornerShape = cornerShape,
-            arrowWidth = arrowWidth,
-            arrowHeight = arrowHeight
-        )
-    )
-)
-
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun HorizontalPagerScreen() {
+fun HorizontalPager() {
 
     fun createItems() = listOf(
         HorizontalPagerContent(title = "Title1", subtitle = "Subtitle1", description = "Description1"),
@@ -1571,6 +843,294 @@ fun HorizontalPagerScreen() {
 //        ) {
 //            Text(text = "Scroll to the third page")
 //        }
+    }
+}
+
+@Composable
+fun TopRow() {
+    Row(
+        modifier = Modifier
+            .padding(start = 15.dp, end = 15.dp, top = 15.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        MyProfileImage()
+
+        Spacer(modifier = Modifier.width(70.dp))
+
+        Row(modifier = Modifier
+            .border(
+                1.dp, colorResource(id = R.color.border_color),
+                RoundedCornerShape(8.dp)
+            )
+            .height(28.dp)
+            , verticalAlignment = Alignment.CenterVertically) {
+            Spacer(modifier = Modifier.width(5.dp))
+            Icon(
+                painter = painterResource(id = R.drawable.ic_profile_icon),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(20.dp, 20.dp),
+                tint = Color.Unspecified
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(
+                text = "1,000",
+                style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    fontFamily = CustomFonts.manrope_semi_bold
+                ),
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Icon(
+                painter = painterResource(id = R.drawable.ic_plus_icon),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(16.dp, 16.dp),
+                tint = Color.Unspecified
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+        }
+
+        Spacer(modifier = Modifier.width(5.dp))
+
+        Row(modifier = Modifier
+            .border(
+                1.dp, colorResource(id = R.color.border_color),
+                RoundedCornerShape(8.dp)
+            )
+            .height(28.dp)
+            , verticalAlignment = Alignment.CenterVertically) {
+            Spacer(modifier = Modifier.width(5.dp))
+            Icon(
+                painter = painterResource(id = R.drawable.ic_cup_star),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(18.dp, 18.dp),
+                tint = Color.Unspecified
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(
+                text = "8",
+                style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    fontFamily = CustomFonts.manrope_semi_bold
+                ),
+                textAlign = TextAlign.Center,
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+        }
+
+        Spacer(modifier = Modifier.width(5.dp))
+
+        Row(modifier = Modifier
+            .border(
+                1.dp, colorResource(id = R.color.border_color),
+                RoundedCornerShape(8.dp)
+            )
+            .height(28.dp)
+            , verticalAlignment = Alignment.CenterVertically) {
+            Spacer(modifier = Modifier.width(5.dp))
+            Icon(
+                painter = painterResource(id = R.drawable.ic_coin_yellow),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(20.dp, 20.dp),
+                tint = Color.Unspecified
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(
+                text = "1,000",
+                style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    fontFamily = CustomFonts.manrope_semi_bold
+                ),
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Icon(
+                painter = painterResource(id = R.drawable.ic_plus_icon),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(16.dp, 16.dp),
+                tint = Color.Unspecified
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+        }
+
+    }
+}
+@Composable
+fun BottomNavigationBar(selectedMenu:MutableState<Int>) {
+    BottomNavigation(
+        backgroundColor = Color.White,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(80.dp)
+            .clip(RoundedCornerShape(28.dp, 28.dp, 0.dp, 0.dp)),
+    ) {
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_solar_home),
+                    contentDescription = "Home",
+                    modifier = Modifier
+                        .size(28.dp)
+                        .padding(bottom = 5.dp),
+                    tint = if(selectedMenu.value == 0) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
+                )
+            },
+            label = {
+                Text(
+                    text = "Home",
+                    style = TextStyle(
+                        color = if(selectedMenu.value == 0) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
+                        fontSize = 13.sp,
+                        fontFamily = CustomFonts.manrope_extra_bold
+                    ),
+
+                    )
+            },
+            selected = selectedMenu.value == 0,
+            onClick = {
+                selectedMenu.value = 0
+            },
+            alwaysShowLabel = true,
+            selectedContentColor = colorResource(id = R.color.violet_dark),
+            unselectedContentColor = colorResource(id = R.color.un_selected_background_color),
+            modifier = Modifier.padding(bottom = 10.dp)
+        )
+
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_number_1),
+                    contentDescription = "Room",
+                    modifier = Modifier
+                        .size(28.dp)
+                        .padding(bottom = 5.dp),
+                    tint = if(selectedMenu.value == 1) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
+                )
+            },
+            label = {
+                Text(
+                    text = "Room",
+                    style = TextStyle(
+                        color = if(selectedMenu.value == 1) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
+                        fontSize = 13.sp,
+                        fontFamily = CustomFonts.manrope_extra_bold
+                    ),
+                )
+            },
+            selected = selectedMenu.value == 1,
+            onClick = {
+                selectedMenu.value = 1
+            },
+            alwaysShowLabel = true,
+            selectedContentColor = colorResource(id = R.color.violet_dark),
+            unselectedContentColor = colorResource(id = R.color.un_selected_background_color),
+            modifier = Modifier.padding(bottom = 10.dp)
+        )
+
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_number_2),
+                    contentDescription = "Room",
+                    modifier = Modifier
+                        .size(28.dp)
+                        .padding(bottom = 5.dp),
+                    tint = if(selectedMenu.value == 2) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
+                )
+            },
+            label = {
+                Text(
+                    text = "Room",
+                    style = TextStyle(
+                        color = if(selectedMenu.value == 2) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
+                        fontSize = 13.sp,
+                        fontFamily = CustomFonts.manrope_extra_bold
+                    ),
+                )
+            },
+            selected = selectedMenu.value == 2,
+            onClick = {
+                selectedMenu.value = 2
+            },
+            alwaysShowLabel = true,
+            selectedContentColor = colorResource(id = R.color.violet_dark),
+            unselectedContentColor = colorResource(id = R.color.un_selected_background_color),
+            modifier = Modifier.padding(bottom = 10.dp)
+        )
+
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_number_3),
+                    contentDescription = "Room",
+                    modifier = Modifier
+                        .size(28.dp)
+                        .padding(bottom = 5.dp),
+                    tint = if(selectedMenu.value == 3) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
+                )
+            },
+            label = {
+                Text(
+                    text = "Room",
+                    style = TextStyle(
+                        color = if(selectedMenu.value == 3) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
+                        fontSize = 13.sp,
+                        fontFamily = CustomFonts.manrope_extra_bold
+                    ),
+                )
+            },
+            selected = selectedMenu.value == 3,
+            onClick = {
+                selectedMenu.value = 3
+            },
+            alwaysShowLabel = true,
+            selectedContentColor = colorResource(id = R.color.violet_dark),
+            unselectedContentColor = colorResource(id = R.color.un_selected_background_color),
+            modifier = Modifier.padding(bottom = 10.dp)
+        )
+
+        BottomNavigationItem(
+            icon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_number_4),
+                    contentDescription = "Room",
+                    modifier = Modifier
+                        .size(28.dp)
+                        .padding(bottom = 5.dp),
+                    tint = if(selectedMenu.value == 4) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
+                )
+            },
+            label = {
+                Text(
+                    text = "Room",
+                    style = TextStyle(
+                        color = if(selectedMenu.value == 4) colorResource(R.color.violet_dark) else colorResource(R.color.un_selected_background_color),
+                        fontSize = 13.sp,
+                        fontFamily = CustomFonts.manrope_extra_bold
+                    ),
+                )
+            },
+            selected = selectedMenu.value == 4,
+            onClick = {
+                selectedMenu.value = 4
+            },
+            alwaysShowLabel = true,
+            selectedContentColor = colorResource(id = R.color.violet_dark),
+            unselectedContentColor = colorResource(id = R.color.un_selected_background_color),
+            modifier = Modifier.padding(bottom = 10.dp)
+        )
     }
 }
 
