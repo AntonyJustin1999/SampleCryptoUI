@@ -363,7 +363,7 @@ fun RoomCreationScreen(navController: NavHostController) {
                                         color = if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
                                             Color(0xff623CBB)
                                         } else {
-                                            Color(0xff7C8396)
+                                            Color(0x80623CBB)
                                         }
                                     )
                                     .height(35.dp)
@@ -468,7 +468,7 @@ fun RoomCreationScreen(navController: NavHostController) {
                                     color = if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
                                         Color(0xff623CBB)
                                     } else {
-                                        Color(0xff7C8396)
+                                        Color(0x80623CBB)
                                     }
                                 )
                                 .height(35.dp)
