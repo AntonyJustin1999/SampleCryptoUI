@@ -66,7 +66,6 @@ fun RoomCreatedScreen(navController: NavController) {
     var title = "Room Created"
     val arguments = navController.currentBackStackEntry?.arguments
 
-
     Scaffold(
         backgroundColor = colorResource(R.color.background),
         topBar = {
