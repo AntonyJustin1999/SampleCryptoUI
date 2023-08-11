@@ -351,6 +351,7 @@ fun RoomCreationScreen(navController: NavHostController) {
                             modifier = Modifier.padding(16.dp)
                         )
                         Spacer(modifier = Modifier.weight(1f))
+
                         Card(
                             modifier = Modifier
                                 .padding(10.dp)

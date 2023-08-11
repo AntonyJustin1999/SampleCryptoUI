@@ -96,6 +96,8 @@ fun RoomCreatedScreen(navController: NavController) {
             getInRoomUsers(context = LocalContext.current)
             getHeight(50)
             getNextButton(navController = navController)
+
+
         }
     }
 }
