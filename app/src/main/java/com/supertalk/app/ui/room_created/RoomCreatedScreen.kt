@@ -97,6 +97,7 @@ fun RoomCreatedScreen(navController: NavController) {
             getHeight(50)
             getNextButton(navController = navController)
 
+
         }
     }
 }
