@@ -1,11 +1,19 @@
 package com.supertalk.app.ui.home
 
+import BottomSheetItem
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +28,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
@@ -36,15 +45,19 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
@@ -53,8 +66,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
@@ -67,6 +82,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -83,10 +99,18 @@ import com.supertalk.app.util.CustomFonts
 import com.supertalk.app.util.NavDestinations
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(navController: NavController) {
 
     val selectedMenu = remember { mutableStateOf(0) }
+
+    // State to control the bottom sheet visibility
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
+    // State to hold the selected item
+    val selectedItem = remember { mutableStateOf<BottomSheetItem?>(null) }
+    // Coroutine scope for launching actions
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
         Modifier
@@ -99,81 +123,179 @@ fun HomeScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .weight(weight = 1f, fill = false)) {
+                .weight(weight = 1f, fill = false)
+        ) {
 
-            TopRow()
-
-            Spacer(modifier = Modifier.padding(top = 10.dp))
-
-            Text(
-                text = "Sports",
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = 15.sp,
-                    fontFamily = CustomFonts.manrope_extra_bold
-                ),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-
-            Spacer(modifier = Modifier.padding(top = 10.dp))
-
-            customListView(LocalContext.current)
-
-            Spacer(modifier = Modifier.padding(top = 16.dp))
-
-            Text(
-                text = "Today's Hot Matches",
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = 15.sp,
-                    fontFamily = CustomFonts.manrope_extra_bold
-                ),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-
-            HorizontalPager()
-
-            Spacer(modifier = Modifier.padding(top = 15.dp))
-
-            Divider(
-                color = colorResource(id = R.color.white),
-                modifier = Modifier
-                    .fillMaxWidth()  //fill the max height
-                    .width(1.dp)
-            )
-
-            Spacer(modifier = Modifier.padding(top = 15.dp))
-
-            customCurveLayout(LocalContext.current,"Direct Prediction")
-            Spacer(modifier = Modifier.padding(top = 13.dp))
-            customCurveLayout(LocalContext.current,"Live Rooms")
-            Spacer(modifier = Modifier.padding(top = 15.dp))
-
-            Text(
-                text = "News For You",
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = 15.sp,
-                    fontFamily = CustomFonts.manrope_extra_bold
-                ),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(start = 16.dp, top = 10.dp)
-            )
-
-            Spacer(modifier = Modifier.padding(top = 6.dp))
-
-            customListViewForNews(LocalContext.current,navController)
-
-            Spacer(modifier = Modifier.padding(top = 20.dp))
+            when(selectedMenu.value){
+                0 -> {
+                    HomePageScreen(navController)
+                    Spacer(modifier = Modifier.padding(top = 20.dp))
+                }
+                1 -> {
+                    Room1Screen(navController = navController,1)
+                    Spacer(modifier = Modifier.padding(top = 20.dp))
+                    Spacer(modifier = Modifier.height(150.dp))
+                }
+                2 -> {
+                    Room2Screen(navController = navController,2)
+                    Spacer(modifier = Modifier.padding(top = 20.dp))
+                    Spacer(modifier = Modifier.height(150.dp))
+                }
+                3 -> {
+                    Room3Screen(navController = navController,3)
+                    Spacer(modifier = Modifier.padding(top = 20.dp))
+                    Spacer(modifier = Modifier.height(150.dp))
+                }
+                4 -> {
+                    Room4Screen(navController = navController,4)
+                    Spacer(modifier = Modifier.padding(top = 20.dp))
+                    Spacer(modifier = Modifier.height(150.dp))
+                }
+                else ->HomePageScreen(navController)
+            }
 
         }
-
         BottomNavigationBar(selectedMenu)
-
     }
 }
+
+@Composable
+fun HomePageScreen(navController: NavController) {
+    TopRow(navController = navController)
+
+    Spacer(modifier = Modifier.padding(top = 10.dp))
+
+    Text(
+        text = "Sports",
+        style = TextStyle(
+            color = Color.Black,
+            fontSize = 15.sp,
+            fontFamily = CustomFonts.manrope_extra_bold
+        ),
+        textAlign = TextAlign.Center,
+        modifier = Modifier.padding(start = 16.dp)
+    )
+
+    Spacer(modifier = Modifier.padding(top = 10.dp))
+
+    customListView(LocalContext.current)
+
+    Spacer(modifier = Modifier.padding(top = 16.dp))
+
+    Text(
+        text = "Today's Hot Matches",
+        style = TextStyle(
+            color = Color.Black,
+            fontSize = 15.sp,
+            fontFamily = CustomFonts.manrope_extra_bold
+        ),
+        textAlign = TextAlign.Center,
+        modifier = Modifier.padding(start = 16.dp)
+    )
+
+    HorizontalPager()
+
+    Spacer(modifier = Modifier.padding(top = 15.dp))
+
+    Divider(
+        color = colorResource(id = R.color.white),
+        modifier = Modifier
+            .fillMaxWidth()  //fill the max height
+            .width(1.dp)
+    )
+
+
+    customCurveLayout( context = LocalContext.current,navController = navController,
+        text = "Direct Prediction",type = ROOMTYPES.DirectPrediction,isShowLabel = false,
+        isShowCoin = false, isLastItem = false)
+
+    customCurveLayout( context = LocalContext.current,navController = navController,
+        text = "Live Rooms",type = ROOMTYPES.LiveRooms,isShowLabel = false,
+        isShowCoin = false, isLastItem = true)
+
+    Text(
+        text = "News For You",
+        style = TextStyle(
+            color = Color.Black,
+            fontSize = 15.sp,
+            fontFamily = CustomFonts.manrope_extra_bold
+        ),
+        textAlign = TextAlign.Center,
+        modifier = Modifier.padding(start = 16.dp, top = 10.dp)
+    )
+
+    Spacer(modifier = Modifier.padding(top = 6.dp))
+
+    customListViewForNews(LocalContext.current,navController)
+}
+@Composable
+fun Room1Screen(navController: NavController,roomNo:Int) {
+    TopRow(navController = navController)
+
+    Spacer(modifier = Modifier.padding(top = 10.dp))
+
+    Text(
+        text = "Today's Hot Matches",
+        style = TextStyle(
+            color = Color.Black,
+            fontSize = 15.sp,
+            fontFamily = CustomFonts.manrope_extra_bold
+        ),
+        textAlign = TextAlign.Center,
+        modifier = Modifier.padding(start = 16.dp)
+    )
+
+    HorizontalPager()
+
+    Spacer(modifier = Modifier.padding(top = 15.dp))
+
+
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .height(27.dp)
+        .background(colorResource(id = R.color.violet_dark))
+    ) {
+        Text(
+            text = "Room${roomNo}",
+            style = TextStyle(
+                color = Color.White,
+                fontSize = 14.sp,
+                fontFamily = CustomFonts.manrope_medium
+            ),
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.Center)
+        )
+    }
+
+    customCurveLayout( context = LocalContext.current,navController = navController,
+        text = "Create Room",type = ROOMTYPES.CreateRoom,isShowLabel = false
+        ,isShowCoin = true, isLastItem = false)
+
+    customCurveLayout( context = LocalContext.current,navController = navController,
+        text = "Join Room",type = ROOMTYPES.JoinRoom,isShowLabel = false
+        ,isShowCoin = true, isLastItem = true)
+
+}
+
+@Composable
+fun Room2Screen(navController: NavController,roomNo:Int) {
+    Room1Screen(navController = navController,roomNo)
+}
+
+@Composable
+fun Room3Screen(navController: NavController,roomNo:Int) {
+    Room1Screen(navController = navController,roomNo)
+}
+
+@Composable
+fun Room4Screen(navController: NavController,roomNo:Int) {
+    Room1Screen(navController = navController,roomNo)
+}
+
+
+
 
 @Composable
 private fun MyProfileImage() {
@@ -585,54 +707,161 @@ class CustomBottomRightCornerShape(
     }
 }
 @Composable
-fun customCurveLayout(context: Context,text:String) {
+fun customCurveLayout(context: Context,navController: NavController,
+    text:String,type:ROOMTYPES,isShowLabel:Boolean,labelText:String? = null,
+    labelColor:Color? = null ,isShowCoin:Boolean,isLastItem:Boolean) {
 
     val cornerShape = with(LocalDensity.current) { 30.dp.toPx() }
     val size = with(LocalDensity.current) { 50.dp.toPx() }
 
-    Box(
-        modifier = Modifier
-            .padding(start = 15.dp, end = 15.dp)
-            .fillMaxWidth()
-            .height(102.dp)
-            .background(Color.White, CustomBottomRightCornerShape(cornerShape, size)),
-        contentAlignment = Alignment.Center
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(end = 16.dp)
     ) {
 
-        Text(
-            text = text,
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(20.dp)
+                .background(color = colorResource(id = R.color.background))
+                .zIndex(5f)
+            )
 
-            style = TextStyle(
-                color = Color.Black,
-                fontSize = 15.sp,
-                fontFamily = CustomFonts.manrope_bold
-            ),
-            modifier = Modifier,
+        Row(){
+            Spacer(modifier = Modifier
+                .fillMaxHeight()
+                .width(15.dp)
+                .background(color = colorResource(id = R.color.background))
+                .zIndex(5f)
+            )
 
-            // in the below line, we are adding color for our text
-            color = Color.Black, textAlign = TextAlign.Center
-        )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(102.dp)
+                    .background(Color.White, CustomBottomRightCornerShape(cornerShape, size))
+            ) {
 
-        IconButton(
-            onClick = {
+                if(isShowCoin){
+                    Row(modifier = Modifier.align(Alignment.BottomStart).padding(start = 10.dp, bottom = 10.dp)
+                        .border(
+                            1.dp, colorResource(id = R.color.border_color),
+                            RoundedCornerShape(8.dp)
+                        )
+                        .background(color = colorResource(id = R.color.light_background_menu)
+                        , shape = RoundedCornerShape(8.dp))
+                        .height(28.dp)
+                        , verticalAlignment = Alignment.CenterVertically) {
+                        Spacer(modifier = Modifier.width(5.dp))
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_coin_yellow),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .size(18.dp, 18.dp),
+                            tint = Color.Unspecified
+                        )
+                        Spacer(modifier = Modifier.width(5.dp))
+                        Text(
+                            text = "1000",
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontSize = 16.sp,
+                                fontFamily = CustomFonts.manrope_semi_bold
+                            ),
+                            textAlign = TextAlign.Center,
+                        )
+                        Spacer(modifier = Modifier.width(5.dp))
+                    }
+                }
 
-            },
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .size(44.dp, 44.dp)
-                .clip(RoundedCornerShape(14.dp))
-                .background(colorResource(id = R.color.violet_dark))
-                .align(Alignment.TopEnd)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_right_arrow_white),
-                contentDescription = "",
-                modifier = Modifier.size(15.dp,15.dp),
-                tint = Color.Unspecified
+                if(isShowLabel){
+                    Column(
+                        modifier = Modifier.fillMaxHeight(),
+                        verticalArrangement = Arrangement.Bottom,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .padding(bottom = 50.dp)
+                                .offset(x = (-27).dp, y = (8).dp)
+                        ) {
+                            Canvas(
+                                modifier = Modifier
+                                    .height(28.dp)
+                                    .width(135.dp)
+                                    .rotate(125f)
+                                    .clip(shape = RoundedCornerShape(bottomStart = 10.dp))
+                            ) {
+                                drawRect(labelColor?: Color.White)
+                            }
 
+                            Text(
+                                text = labelText?:"",
+                                style = TextStyle(
+                                    color = Color.White,
+                                    fontSize = 13.sp,
+                                    fontFamily = CustomFonts.manrope_medium
+                                ),
+                                modifier = Modifier
+                                    .height(28.dp)
+                                    .width(135.dp)
+                                    .rotate(-56f),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                }
+
+                Text(
+                    text = text,
+
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontSize = 15.sp,
+                        fontFamily = CustomFonts.manrope_bold
+                    ),
+                    modifier = Modifier.align(Alignment.Center),
+
+                    // in the below line, we are adding color for our text
+                    color = Color.Black, textAlign = TextAlign.Center
+                )
+
+                IconButton(
+                    onClick = {
+
+                    },
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .size(44.dp, 44.dp)
+                        .clip(RoundedCornerShape(14.dp))
+                        .background(colorResource(id = R.color.violet_dark))
+                        .align(Alignment.TopEnd)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_right_arrow_white),
+                        contentDescription = "",
+                        modifier = Modifier.size(15.dp,15.dp),
+                        tint = Color.Unspecified
+
+                    )
+                }
+
+            }
+
+            Spacer(modifier = Modifier
+                .fillMaxHeight()
+                .width(15.dp)
+                .background(color = colorResource(id = R.color.background))
+                .zIndex(5f)
             )
         }
-
+        if(isLastItem){
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(15.dp)
+                .background(color = colorResource(id = R.color.background))
+                .zIndex(5f)
+            )
+        }
     }
 }
 
@@ -847,7 +1076,7 @@ fun HorizontalPager() {
 }
 
 @Composable
-fun TopRow() {
+fun TopRow(navController: NavController) {
     Row(
         modifier = Modifier
             .padding(start = 15.dp, end = 15.dp, top = 15.dp)
@@ -934,7 +1163,13 @@ fun TopRow() {
                 RoundedCornerShape(8.dp)
             )
             .height(28.dp)
-            , verticalAlignment = Alignment.CenterVertically) {
+            .clickable {
+                navController.navigate(NavDestinations.COIN_CARD_BOTTOM_SHEET_SCREEN)
+            }
+            , verticalAlignment = Alignment.CenterVertically
+        )
+        {
+
             Spacer(modifier = Modifier.width(5.dp))
             Icon(
                 painter = painterResource(id = R.drawable.ic_coin_yellow),
@@ -1132,6 +1367,13 @@ fun BottomNavigationBar(selectedMenu:MutableState<Int>) {
             modifier = Modifier.padding(bottom = 10.dp)
         )
     }
+}
+
+enum class ROOMTYPES{
+    DirectPrediction,
+    LiveRooms,
+    CreateRoom,
+    JoinRoom
 }
 
 

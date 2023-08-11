@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.supertalk.app.ui.account_creation_success.AccountCreationSuccessScreen
 import com.supertalk.app.ui.basic_intro_slider.BasicIntroSliderScreen
 import com.supertalk.app.ui.dialog.UserKickOutScreen
+import com.supertalk.app.ui.home.CardAndCoinBottomSheetScreen
 import com.supertalk.app.ui.home.HomeScreen
 import com.supertalk.app.ui.home.NewsDetailsScreen
 import com.supertalk.app.ui.location_selection.LocationSelectionScreen
@@ -82,6 +83,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(NavDestinations.NEWS_DETAILS_SCREEN) {
                             NewsDetailsScreen(navController)
+                        }
+                        composable(NavDestinations.COIN_CARD_BOTTOM_SHEET_SCREEN) {
+                            CardAndCoinBottomSheetScreen(navController)
                         }
                     }
                 }

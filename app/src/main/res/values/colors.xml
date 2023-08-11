@@ -11,8 +11,10 @@
     <color name="disabled_btn_color">#C6C6C6</color>
     <color name="un_selected_background_color">#D6D0E2</color>
     <color name="border_color">#E9E0FF</color>
+    <color name="light_background_menu">#F4EFFF</color>
     <color name="border_color_yellow">#EFA142</color>
     <color name="green">#12A35D</color>
     <color name="light_background">#F5F3FF</color>
+
 
 </resources>
