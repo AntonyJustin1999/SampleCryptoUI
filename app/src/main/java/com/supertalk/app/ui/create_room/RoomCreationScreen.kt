@@ -300,7 +300,6 @@ fun RoomCreationScreen(navController: NavHostController) {
             ) {
                 Spacer(modifier = Modifier.height(15.dp))
                 TittleCard("Select Sports")
-                Spacer(modifier = Modifier.height(5.dp))
                 SportsList(
                     selectedItem,
                     countrySelected,
@@ -311,7 +310,6 @@ fun RoomCreationScreen(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(15.dp))
                 if (selectedItem.value != null) {
                     TittleCard("Select Country")
-                    Spacer(modifier = Modifier.height(5.dp))
                     CountryList(
                         selectedCountryItem,
                         coroutineScope,
