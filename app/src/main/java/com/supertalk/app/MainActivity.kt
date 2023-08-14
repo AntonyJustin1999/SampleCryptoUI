@@ -17,8 +17,10 @@ import com.supertalk.app.ui.account_creation_success.AccountCreationSuccessScree
 import com.supertalk.app.ui.basic_intro_slider.BasicIntroSliderScreen
 import com.supertalk.app.ui.dialog.UserKickOutScreen
 import com.supertalk.app.ui.home.CardAndCoinBottomSheetScreen
+import com.supertalk.app.ui.home.EnterCardDetailsScreen
 import com.supertalk.app.ui.home.HomeScreen
 import com.supertalk.app.ui.home.NewsDetailsScreen
+import com.supertalk.app.ui.home.SelectCardScreen
 import com.supertalk.app.ui.location_selection.LocationSelectionScreen
 import com.supertalk.app.ui.login.LoginScreen
 import com.supertalk.app.ui.privacy.PrivacyScreen
@@ -86,6 +88,12 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(NavDestinations.COIN_CARD_BOTTOM_SHEET_SCREEN) {
                             CardAndCoinBottomSheetScreen(navController)
+                        }
+                        composable(NavDestinations.CARD_DETAILS_ENTER_SCREEN) {
+                            EnterCardDetailsScreen(navController)
+                        }
+                        composable(NavDestinations.SELECT_CARD_SCREEN) {
+                            SelectCardScreen(navController)
                         }
                     }
                 }
