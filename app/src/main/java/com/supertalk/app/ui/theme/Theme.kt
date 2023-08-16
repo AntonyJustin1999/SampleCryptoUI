@@ -19,10 +19,17 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    primary = VIOLET_DARK,
-    primaryVariant = VIOLET_DARK,
-    secondary = VIOLET_DARK
+//    primary = VIOLET_DARK,
+//    primaryVariant = VIOLET_DARK,
+//    secondary = VIOLET_DARK
 
+
+    primary = GROUND_GREEN,
+    primaryVariant = GROUND_GREEN,
+    secondary = GROUND_GREEN
+
+
+    
     /* Other default colors to override
     background = Color.White,
     surface = Color.White,

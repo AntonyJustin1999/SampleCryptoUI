@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.supertalk.app.ui.account_creation_success.AccountCreationSuccessScreen
+import com.supertalk.app.ui.all_grounds.GroundHomeScreen
 import com.supertalk.app.ui.basic_intro_slider.BasicIntroSliderScreen
 import com.supertalk.app.ui.dialog.UserKickOutScreen
 import com.supertalk.app.ui.home.CardAndCoinBottomSheetScreen
@@ -47,7 +48,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = NavDestinations.HOME_SCREEN,
+                        startDestination = NavDestinations.GROUND_HOME_SCREEN,
                     ) {
                         composable(NavDestinations.SPLASH_SCREEN) {
                             SplashScreen(navController)
@@ -94,6 +95,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(NavDestinations.SELECT_CARD_SCREEN) {
                             SelectCardScreen(navController)
+                        }
+                        composable(NavDestinations.GROUND_HOME_SCREEN) {
+                            GroundHomeScreen(navController)
                         }
                     }
                 }

@@ -15,6 +15,6 @@
     <color name="border_color_yellow">#EFA142</color>
     <color name="green">#12A35D</color>
     <color name="light_background">#F5F3FF</color>
-
+    <color name="ground_green">#688C43</color>
 
 </resources>
