@@ -19,11 +19,13 @@ import com.supertalk.app.ui.basic_intro_slider.BasicIntroSliderScreen
 import com.supertalk.app.ui.dialog.UserKickOutScreen
 import com.supertalk.app.ui.home.CardAndCoinBottomSheetScreen
 import com.supertalk.app.ui.home.EnterCardDetailsScreen
+import com.supertalk.app.ui.home.CardAndCoinBottomSheetScreen
 import com.supertalk.app.ui.home.HomeScreen
 import com.supertalk.app.ui.home.NewsDetailsScreen
 import com.supertalk.app.ui.home.SelectCardScreen
 import com.supertalk.app.ui.location_selection.LocationSelectionScreen
 import com.supertalk.app.ui.login.LoginScreen
+import com.supertalk.app.ui.prediction_screen.PredictionScreen
 import com.supertalk.app.ui.privacy.PrivacyScreen
 import com.supertalk.app.ui.privacy.TermsandConditionsScreen
 import com.supertalk.app.ui.registration.RegistrationOTPScreen
@@ -75,7 +77,7 @@ class MainActivity : ComponentActivity() {
                             SportsSelectionScreen(navController)
                         }
                         composable(NavDestinations.LOCATION_SELECTION_SCREEN) {
-                           LocationSelectionScreen(navController)
+                            LocationSelectionScreen(navController)
                         }
                         composable(NavDestinations.ACCOUNT_CREATION_SUCCESS_SCREEN) {
                             AccountCreationSuccessScreen(navController)
@@ -98,6 +100,12 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(NavDestinations.GROUND_HOME_SCREEN) {
                             GroundHomeScreen(navController)
+                        }
+                        composable(NavDestinations.ROOM_CREATION_SCREEN) {
+                            RoomCreationScreen(navController)
+                        }
+                        composable(NavDestinations.PREDICTION_SCREEN) {
+                            PredictionScreen(navController)
                         }
                     }
                 }
