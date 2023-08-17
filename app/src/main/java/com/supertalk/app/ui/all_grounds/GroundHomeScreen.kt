@@ -112,7 +112,7 @@ data class SpeakersDataSet(val speakerProfile: Int,val isMikeOn: Boolean,val isM
 @Composable
 fun GroundHomeScreen(navController: NavController) {
     
-    val selectedMenu = remember { mutableStateOf(0) }
+    val selectedMenu = remember { mutableStateOf(-1) }
 
     Column(
         Modifier
@@ -156,9 +156,6 @@ fun GroundHomeScreen(navController: NavController) {
 
                     when(selectedMenu.value){
                         0 -> {
-                            StaticSoccerGroundUI(navController = navController)
-                        }
-                        1 -> {
                             Text(
                                 text = "Selected Menu ${selectedMenu.value}",
                                 style = TextStyle(
@@ -169,7 +166,7 @@ fun GroundHomeScreen(navController: NavController) {
                                 textAlign = TextAlign.Center,
                             )
                         }
-                        2 -> {
+                        1 -> {
                             Text(
                                 text = "Selected Menu ${selectedMenu.value}",
                                 style = TextStyle(
@@ -180,7 +177,7 @@ fun GroundHomeScreen(navController: NavController) {
                                 textAlign = TextAlign.Center,
                             )
                         }
-                        3 -> {
+                        2 -> {
                             Text(
                                 text = "Selected Menu ${selectedMenu.value}",
                                 style = TextStyle(
@@ -191,7 +188,7 @@ fun GroundHomeScreen(navController: NavController) {
                                 textAlign = TextAlign.Center,
                             )
                         }
-                        4 -> {
+                        3 -> {
                             Text(
                                 text = "Selected Menu ${selectedMenu.value}",
                                 style = TextStyle(
@@ -203,15 +200,7 @@ fun GroundHomeScreen(navController: NavController) {
                             )
                         }
                         else -> {
-                            Text(
-                                text = "Selected Menu ${selectedMenu.value}",
-                                style = TextStyle(
-                                    color = Color.White,
-                                    fontSize = 20.sp,
-                                    fontFamily = CustomFonts.manrope_bold
-                                ),
-                                textAlign = TextAlign.Center,
-                            )
+                            StaticSoccerGroundUI(navController = navController)
                         }
                     }
 
