@@ -178,17 +178,20 @@ fun GroundHomeScreen(navController: NavController) {
                             )
                         }
                         2 -> {
+                            //SoccerLiveScreenUI(navController = navController)
+                        }
+                        3 -> {
                             Text(
                                 text = "Selected Menu ${selectedMenu.value}",
                                 style = TextStyle(
-                                    color = Color.Cyan,
+                                    color = Color.Magenta,
                                     fontSize = 20.sp,
                                     fontFamily = CustomFonts.manrope_bold
                                 ),
                                 textAlign = TextAlign.Center,
                             )
                         }
-                        3 -> {
+                        4 -> {
                             Text(
                                 text = "Selected Menu ${selectedMenu.value}",
                                 style = TextStyle(
@@ -210,7 +213,7 @@ fun GroundHomeScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(5.dp))
             Column(modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.5f)
+                .weight(0.6f)
                 .padding(start = 10.dp, end = 10.dp)
             ){
                 Row(
@@ -225,7 +228,6 @@ fun GroundHomeScreen(navController: NavController) {
             }
     }
 }
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun customListView(context: Context) {
 
@@ -463,60 +465,144 @@ fun getHorizontalMenusList(selectedMenu:MutableState<Int>){
         .height(50.dp)
         , verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            painter = if(selectedMenu.value == 0) painterResource(id = R.drawable.ic_symbol_seat_clicked) else painterResource(id = R.drawable.ic_symbol_seat_not_clicked),
-            contentDescription = "",
-            modifier = Modifier
-                .size(24.dp, 24.dp)
-                .clickable {
-                    selectedMenu.value = 0
-                },
-            tint = Color.Unspecified
-        )
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(
+                painter = if(selectedMenu.value == 0) painterResource(id = R.drawable.ic_symbol_seat_clicked) else painterResource(id = R.drawable.ic_symbol_seat_not_clicked),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(24.dp, 24.dp)
+                    .clickable {
+                        selectedMenu.value = 0
+                    },
+                tint = Color.Unspecified
+            )
+
+            if(selectedMenu.value == 0) {
+                Spacer(modifier = Modifier.height(2.dp))
+
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_ellipse),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(4.dp, 4.dp),
+                    tint = Color.Unspecified
+                )
+            }
+
+        }
+
         Spacer(modifier = Modifier.width(13.dp))
-        Icon(
-            painter = if(selectedMenu.value == 1) painterResource(id = R.drawable.ic_whistle_clicked) else painterResource(id = R.drawable.ic_whistle_not_clicked),
-            contentDescription = "",
-            modifier = Modifier
-                .size(24.dp, 24.dp)
-                .clickable {
-                    selectedMenu.value = 1
-                },
-            tint = Color.Unspecified
-        )
+
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(
+                painter = if(selectedMenu.value == 1) painterResource(id = R.drawable.ic_whistle_clicked) else painterResource(id = R.drawable.ic_whistle_not_clicked),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(24.dp, 24.dp)
+                    .clickable {
+                        selectedMenu.value = 1
+                    },
+                tint = Color.Unspecified
+            )
+
+            if(selectedMenu.value == 1) {
+                Spacer(modifier = Modifier.height(2.dp))
+
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_ellipse),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(4.dp, 4.dp),
+                    tint = Color.Unspecified
+                )
+            }
+
+        }
+
         Spacer(modifier = Modifier.width(13.dp))
-        Icon(
-            painter = if(selectedMenu.value == 2) painterResource(id = R.drawable.ic_fluent_live_clicked) else painterResource(id = R.drawable.ic_fluent_live_not_clicked),
-            contentDescription = "",
-            modifier = Modifier
-                .size(24.dp, 24.dp)
-                .clickable {
-                    selectedMenu.value = 2
-                },
-            tint = Color.Unspecified
-        )
+
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(
+                painter = if(selectedMenu.value == 2) painterResource(id = R.drawable.ic_fluent_live_clicked) else painterResource(id = R.drawable.ic_fluent_live_not_clicked),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(24.dp, 24.dp)
+                    .clickable {
+                        selectedMenu.value = 2
+                    },
+                tint = Color.Unspecified
+            )
+
+            if(selectedMenu.value == 2){
+                Spacer(modifier = Modifier.height(2.dp))
+
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_ellipse),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(4.dp, 4.dp),
+                    tint = Color.Unspecified
+                )
+            }
+
+        }
+
         Spacer(modifier = Modifier.width(13.dp))
-        Icon(
-            painter = if(selectedMenu.value == 3) painterResource(id = R.drawable.ic_fluent_people_clicked) else painterResource(id = R.drawable.ic_fluent_people_not_clicked),
-            contentDescription = "",
-            modifier = Modifier
-                .size(24.dp, 24.dp)
-                .clickable {
-                    selectedMenu.value = 3
-                },
-            tint = Color.Unspecified
-        )
+
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(
+                painter = if(selectedMenu.value == 3) painterResource(id = R.drawable.ic_fluent_people_clicked) else painterResource(id = R.drawable.ic_fluent_people_not_clicked),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(24.dp, 24.dp)
+                    .clickable {
+                        selectedMenu.value = 3
+                    },
+                tint = Color.Unspecified
+            )
+
+            if(selectedMenu.value == 3){
+                Spacer(modifier = Modifier.height(2.dp))
+
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_ellipse),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(4.dp, 4.dp),
+                    tint = Color.Unspecified
+                )
+            }
+        }
+
         Spacer(modifier = Modifier.width(13.dp))
-        Icon(
-            painter = if(selectedMenu.value == 4) painterResource(id = R.drawable.ic_stats_up_clicked) else painterResource(id = R.drawable.ic_stats_up_not_clicked),
-            contentDescription = "",
-            modifier = Modifier
-                .size(24.dp, 24.dp)
-                .clickable {
-                    selectedMenu.value = 4
-                },
-            tint = Color.Unspecified
-        )
+
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(
+                painter = if(selectedMenu.value == 4) painterResource(id = R.drawable.ic_stats_up_clicked) else painterResource(id = R.drawable.ic_stats_up_not_clicked),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(24.dp, 24.dp)
+                    .clickable {
+                        selectedMenu.value = 4
+                    },
+                tint = Color.Unspecified
+            )
+
+            if(selectedMenu.value == 4) {
+                Spacer(modifier = Modifier.height(2.dp))
+
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_ellipse),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(4.dp, 4.dp),
+                    tint = Color.Unspecified
+                )
+            }
+
+        }
+
+
         Spacer(modifier = Modifier.width(16.dp))
     }
 }
@@ -527,8 +613,10 @@ fun BottomRowContent(navController: NavController) {
         //Spacer(modifier = Modifier.width(5.dp))
 
         Row(modifier = Modifier
-            .background(Color.White,
-                RoundedCornerShape(40.dp))
+            .background(
+                Color.White,
+                RoundedCornerShape(40.dp)
+            )
             .height(25.dp)
             , verticalAlignment = Alignment.CenterVertically
         ) {
@@ -554,9 +642,11 @@ fun BottomRowContent(navController: NavController) {
         }
 
         Row(modifier = Modifier
-        .background(Color.White,
-            RoundedCornerShape(40.dp))
-        .height(25.dp)
+            .background(
+                Color.White,
+                RoundedCornerShape(40.dp)
+            )
+            .height(25.dp)
         , verticalAlignment = Alignment.CenterVertically) {
         Spacer(modifier = Modifier.width(5.dp))
         Text(

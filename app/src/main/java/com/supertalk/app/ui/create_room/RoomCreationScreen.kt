@@ -95,7 +95,7 @@ fun RoomCreationScreenPreview() {
 fun RoomCreationScreen(navController: NavHostController) {
     // List of items for the bottom sheet
     val bottomSheetItems = listOf(
-        BottomSheetItem(title = "Soccer", image = R.drawable.ic_soccer1),
+        BottomSheetItem(title = "Soccer", image = R.drawable.ic_soccer),
         BottomSheetItem(title = "American FootBall", image = R.drawable.ic_football1),
         BottomSheetItem(title = "Basketball", image = R.drawable.ic_basketball),
         BottomSheetItem(title = "Tennis", image = R.drawable.ic_tennis1)
