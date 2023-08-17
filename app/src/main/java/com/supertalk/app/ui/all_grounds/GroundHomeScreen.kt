@@ -106,9 +106,12 @@ import com.supertalk.app.ui.theme.SuperTalkApplicationTheme
 import com.supertalk.app.util.CustomFonts
 import com.supertalk.app.util.NavDestinations
 import kotlinx.coroutines.launch
+
+data class SpeakersDataSet(val speakerProfile: Int,val isMikeOn: Boolean,val isMikeMute: Boolean,
+                           val isEmoji: Boolean,val isHand: Boolean,)
 @Composable
 fun GroundHomeScreen(navController: NavController) {
-
+    
     val selectedMenu = remember { mutableStateOf(0) }
 
     Column(
@@ -117,7 +120,7 @@ fun GroundHomeScreen(navController: NavController) {
             .fillMaxWidth()
             .paint(
                 // Replace with your image id
-                painterResource(id = R.drawable.ground_green),
+                painterResource(id = R.drawable.bg_gross_light),
                 contentScale = ContentScale.FillBounds
             )
     )
@@ -131,7 +134,7 @@ fun GroundHomeScreen(navController: NavController) {
                 TopRow(navController = navController,selectedMenu)
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(11.dp))
 
             Column(modifier = Modifier
                 .fillMaxWidth()
@@ -144,7 +147,7 @@ fun GroundHomeScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(15.dp))
             Column(modifier = Modifier
                 .fillMaxWidth()
-                .weight(7.7f)
+                .weight(7.9f)
             ){
                 Column(modifier = Modifier
                     .fillMaxWidth()
@@ -153,15 +156,7 @@ fun GroundHomeScreen(navController: NavController) {
 
                     when(selectedMenu.value){
                         0 -> {
-                            Text(
-                                text = "Selected Menu ${selectedMenu.value}",
-                                style = TextStyle(
-                                    color = Color.White,
-                                    fontSize = 20.sp,
-                                    fontFamily = CustomFonts.manrope_bold
-                                ),
-                                textAlign = TextAlign.Center,
-                            )
+                            StaticSoccerGroundUI(navController = navController)
                         }
                         1 -> {
                             Text(
@@ -223,17 +218,18 @@ fun GroundHomeScreen(navController: NavController) {
                 }
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(5.dp))
             Column(modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.8f)
+                .weight(0.5f)
                 .padding(start = 10.dp, end = 10.dp)
             ){
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 10.dp, end = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                        .padding(start = 13.dp, end = 13.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     BottomRowContent(navController = navController)
                 }
@@ -248,92 +244,130 @@ fun customListView(context: Context) {
 
     // in the below line, we are creating and
     // initializing our array list
-    lateinit var sportsList: List<SportsDataSet>
-    sportsList = ArrayList<SportsDataSet>()
+    lateinit var speakersList: List<SpeakersDataSet>
+    speakersList = ArrayList<SpeakersDataSet>()
 
     // in the below line, we are adding data to our list.
-    sportsList = sportsList + SportsDataSet("Soccer", R.drawable.ic_soccer)
-    sportsList = sportsList + SportsDataSet("Football", R.drawable.ic_football)
-    sportsList = sportsList + SportsDataSet("Basketball", R.drawable.ic_basketball)
-    sportsList = sportsList + SportsDataSet("Cricket", R.drawable.ic_cricket)
-    sportsList = sportsList + SportsDataSet("Soccer", R.drawable.ic_soccer)
-    sportsList = sportsList + SportsDataSet("Football", R.drawable.ic_football)
-    sportsList = sportsList + SportsDataSet("Basketball", R.drawable.ic_basketball)
-    sportsList = sportsList + SportsDataSet("Cricket", R.drawable.ic_cricket)
-    sportsList = sportsList + SportsDataSet("Soccer", R.drawable.ic_soccer)
-    sportsList = sportsList + SportsDataSet("Football", R.drawable.ic_football)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,true,false,false,false)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,false,false,true,true)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,false,false,true,true)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,false,true,false,false)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,false,true,false,false)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,false,true,false,false)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,false,true,false,false)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,false,true,false,false)
+
+//    onClick = {
+//        // inside on click we are displaying the toast message.
+//        Toast.makeText(
+//            context,
+//            speakersList[index].toString() + " selected..",
+//            Toast.LENGTH_SHORT
+//        ).show()
+//        selectedIndex.value = index
+//    },
 
     LazyRow(modifier = Modifier) {
-        itemsIndexed(sportsList) { index, item ->
-            Card(
-                onClick = {
-                    // inside on click we are displaying the toast message.
-                    Toast.makeText(
-                        context,
-                        sportsList[index].sportsName + " selected..",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    selectedIndex.value = index
-                },
+        itemsIndexed(speakersList) { index, item ->
+            Box(
                 modifier = Modifier
-                    .width(58.dp)
+                    .width(70.dp)
                     .height(58.dp)
-                    .border(
-                        2.dp,
-                        if (selectedIndex.value == index)
-                            colorResource(id = R.color.border_color_yellow)
-                        else
-                            colorResource(id = R.color.white),
-                        shape = RoundedCornerShape(16.dp)
-                    )
-                , shape = RoundedCornerShape(16.dp))
+            )
             {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    // in the below line, inside row we are adding spacer
-                    Spacer(modifier = Modifier.height(13.dp))
-
-                    // in the below line, we are adding Image to display the image.
                     Image(
-                        // in the below line, we are specifying the drawable image for our image.
-                        painter = painterResource(id = sportsList[index].sportsImg),
-
-                        // in the below line, we are specifying
-                        // content description for our image
+                        painter = painterResource(id = speakersList[index].speakerProfile),
                         contentDescription = "img",
-
-                        // in the below line, we are setting height
-                        // and width for our image.
                         modifier = Modifier
-                            .height(29.dp)
-                            .width(29.dp),
-
+                            .padding(start = 12.dp)
+                            .height(58.dp)
+                            .width(58.dp)
+                            .clip(RoundedCornerShape(18.dp))
+                            //.background(color = Color.Unspecified,shape = )
+                            .border(
+                                2.dp,
+                                if (selectedIndex.value == index)
+                                    colorResource(id = R.color.border_color_yellow)
+                                else
+                                    colorResource(id = R.color.white),
+                                shape = RoundedCornerShape(18.dp)
+                            )
+                            .clickable { }
+                        ,
                         alignment = Alignment.Center
                     )
 
-                    // in the below line, we are adding spacer between image and a text
-                    Spacer(modifier = Modifier.height(3.dp))
+                if(item.isMikeOn){
+                    Icon(
+                        painter = painterResource(id = R.drawable.mike_on),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .offset {
+                                IntOffset(x = 30, y = 16)
+                            }
+                            .size(40.dp, 40.dp)
+                            .zIndex(2f)
+                            .clickable { },
+                        tint = Color.Unspecified
 
-                    Text(
-                        text = sportsList[index].sportsName,
-
-                        style = TextStyle(
-                            color = Color.Black,
-                            fontSize = 14.sp,
-                            fontFamily = CustomFonts.manrope_bold
-                        ),
-                        modifier = Modifier,
-
-                        // in the below line, we are adding color for our text
-                        color = Color.Black, textAlign = TextAlign.Center
                     )
                 }
-            }
-            Spacer(modifier = Modifier.width(10.dp))
 
+                if(item.isEmoji){
+                    Icon(
+                        painter = painterResource(id = R.drawable.smile),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .offset {
+                                IntOffset(x = 30, y = 26)
+                            }
+                            .size(40.dp, 40.dp)
+                            .zIndex(2f)
+                            .clickable { },
+                        tint = Color.Unspecified
+
+                    )
+                }
+
+                if(item.isMikeMute){
+                    Icon(
+                        painter = painterResource(id = R.drawable.mike_off),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .offset {
+                                IntOffset(x = 30, y = 26)
+                            }
+                            .size(40.dp, 40.dp)
+                            .zIndex(2f)
+                            .clickable { }
+                        ,
+                        tint = Color.Unspecified
+
+                    )
+                }
+
+                if(item.isHand){
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_hand),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .offset {
+                                IntOffset(x = 40, y = -30)
+                            }
+                            .size(37.dp, 29.dp)
+                            .zIndex(2f)
+                            .clickable { }
+                        ,
+                        tint = Color.Unspecified
+
+                    )
+                }
+
+            }
         }
     }
 }
@@ -501,55 +535,17 @@ fun getHorizontalMenusList(selectedMenu:MutableState<Int>){
 @Composable
 fun BottomRowContent(navController: NavController) {
 
-        Row(modifier = Modifier
-            .border(
-                1.dp, colorResource(id = R.color.border_color),
-                RoundedCornerShape(8.dp)
-            )
-            .height(28.dp)
-            , verticalAlignment = Alignment.CenterVertically) {
-            Spacer(modifier = Modifier.width(5.dp))
-            Icon(
-                painter = painterResource(id = R.drawable.ic_profile_icon),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(20.dp, 20.dp),
-                tint = Color.Unspecified
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Text(
-                text = "1,000",
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = 16.sp,
-                    fontFamily = CustomFonts.manrope_semi_bold
-                ),
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Icon(
-                painter = painterResource(id = R.drawable.ic_plus_icon),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(16.dp, 16.dp),
-                tint = Color.Unspecified
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-        }
-
-        Spacer(modifier = Modifier.width(5.dp))
+        //Spacer(modifier = Modifier.width(5.dp))
 
         Row(modifier = Modifier
-            .border(
-                1.dp, colorResource(id = R.color.border_color),
-                RoundedCornerShape(8.dp)
-            )
-            .height(28.dp)
-            , verticalAlignment = Alignment.CenterVertically) {
+            .background(Color.White,
+                RoundedCornerShape(40.dp))
+            .height(25.dp)
+            , verticalAlignment = Alignment.CenterVertically
+        ) {
             Spacer(modifier = Modifier.width(5.dp))
             Icon(
-                painter = painterResource(id = R.drawable.ic_cup_star),
+                painter = painterResource(id = R.drawable.ic_eye),
                 contentDescription = "",
                 modifier = Modifier
                     .size(18.dp, 18.dp),
@@ -557,61 +553,41 @@ fun BottomRowContent(navController: NavController) {
             )
             Spacer(modifier = Modifier.width(5.dp))
             Text(
-                text = "8",
+                text = "100K",
                 style = TextStyle(
                     color = Color.Black,
-                    fontSize = 16.sp,
-                    fontFamily = CustomFonts.manrope_semi_bold
+                    fontSize = 14.sp,
+                    fontFamily = CustomFonts.manrope_bold
                 ),
                 textAlign = TextAlign.Center,
             )
             Spacer(modifier = Modifier.width(5.dp))
         }
-
-        Spacer(modifier = Modifier.width(5.dp))
 
         Row(modifier = Modifier
-            .border(
-                1.dp, colorResource(id = R.color.border_color),
-                RoundedCornerShape(8.dp)
-            )
-            .height(28.dp)
-            .clickable {
-                navController.navigate(NavDestinations.COIN_CARD_BOTTOM_SHEET_SCREEN)
-            }
-            , verticalAlignment = Alignment.CenterVertically
+        .background(Color.White,
+            RoundedCornerShape(40.dp))
+        .height(25.dp)
+        , verticalAlignment = Alignment.CenterVertically) {
+        Spacer(modifier = Modifier.width(5.dp))
+        Text(
+            text = "Room1",
+            style = TextStyle(
+                color = Color.Black,
+                fontSize = 14.sp,
+                fontFamily = CustomFonts.manrope_bold
+            ),
+            textAlign = TextAlign.Center,
         )
-        {
-
-            Spacer(modifier = Modifier.width(5.dp))
-            Icon(
-                painter = painterResource(id = R.drawable.ic_coin_yellow),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(20.dp, 20.dp),
-                tint = Color.Unspecified
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Text(
-                text = "1,000",
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = 16.sp,
-                    fontFamily = CustomFonts.manrope_semi_bold
-                ),
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Icon(
-                painter = painterResource(id = R.drawable.ic_plus_icon),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(16.dp, 16.dp),
-                tint = Color.Unspecified
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-        }
+        Spacer(modifier = Modifier.width(5.dp))
+         }
+        Icon(
+            painter = painterResource(id = R.drawable.ic_close_circle),
+            contentDescription = "",
+            modifier = Modifier
+                .size(32.dp, 32.dp),
+            tint = Color.Unspecified
+        )
 }
 
 @Preview(showBackground = true)
