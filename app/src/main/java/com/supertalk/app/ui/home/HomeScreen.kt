@@ -3,17 +3,11 @@ package com.supertalk.app.ui.home
 import BottomSheetItem
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,48 +22,37 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
@@ -93,11 +76,9 @@ import com.supertalk.app.model.HorizontalPagerContent
 import com.supertalk.app.model.NewsDataSet
 import com.supertalk.app.model.SportsDataSet
 import com.supertalk.app.ui.basic_intro_slider.DotsIndicator
-import com.supertalk.app.ui.customwidget.RightBubbleShape
 import com.supertalk.app.ui.theme.SuperTalkApplicationTheme
 import com.supertalk.app.util.CustomFonts
 import com.supertalk.app.util.NavDestinations
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -155,7 +136,7 @@ fun HomeScreen(navController: NavController) {
             }
 
         }
-        BottomNavigationBar(selectedMenu)
+        BottomNavigationBar(selectedMenu,navController)
     }
 }
 
@@ -1203,7 +1184,7 @@ fun TopRow(navController: NavController) {
     }
 }
 @Composable
-fun BottomNavigationBar(selectedMenu:MutableState<Int>) {
+fun BottomNavigationBar(selectedMenu: MutableState<Int>, navController: NavController) {
     BottomNavigation(
         backgroundColor = Color.White,
         modifier = Modifier
@@ -1297,7 +1278,8 @@ fun BottomNavigationBar(selectedMenu:MutableState<Int>) {
             },
             selected = selectedMenu.value == 2,
             onClick = {
-                selectedMenu.value = 2
+                navController.navigate(NavDestinations.ROOM_CREATION_SCREEN)
+            //    selectedMenu.value = 2
             },
             alwaysShowLabel = true,
             selectedContentColor = colorResource(id = R.color.violet_dark),
@@ -1328,7 +1310,8 @@ fun BottomNavigationBar(selectedMenu:MutableState<Int>) {
             },
             selected = selectedMenu.value == 3,
             onClick = {
-                selectedMenu.value = 3
+                navController.navigate(NavDestinations.ROOM_CREATED_SCREEN)
+              //  selectedMenu.value = 3
             },
             alwaysShowLabel = true,
             selectedContentColor = colorResource(id = R.color.violet_dark),
@@ -1359,7 +1342,8 @@ fun BottomNavigationBar(selectedMenu:MutableState<Int>) {
             },
             selected = selectedMenu.value == 4,
             onClick = {
-                selectedMenu.value = 4
+                navController.navigate(NavDestinations.GROUND_HOME_SCREEN)
+        //        selectedMenu.value = 4
             },
             alwaysShowLabel = true,
             selectedContentColor = colorResource(id = R.color.violet_dark),

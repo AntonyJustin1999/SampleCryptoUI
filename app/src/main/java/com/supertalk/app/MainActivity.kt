@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = NavDestinations.GROUND_HOME_SCREEN,
+                        startDestination = NavDestinations.SPLASH_SCREEN,
                     ) {
                         composable(NavDestinations.SPLASH_SCREEN) {
                             SplashScreen(navController)
@@ -106,6 +106,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(NavDestinations.PREDICTION_SCREEN) {
                             PredictionScreen(navController)
+                        }
+                        composable(NavDestinations.ROOM_CREATED_SCREEN) {
+                            RoomCreatedScreen(navController)
                         }
                     }
                 }

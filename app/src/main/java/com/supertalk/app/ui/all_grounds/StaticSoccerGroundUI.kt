@@ -31,6 +31,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.supertalk.app.R
 import com.supertalk.app.ui.theme.SuperTalkApplicationTheme
+import com.supertalk.app.ui.theme.SuperTalkGroundApplicationTheme
 import com.supertalk.app.util.CustomFonts
 
 @Composable
@@ -92,7 +93,7 @@ fun StaticSoccerGroundUI(navController: NavController) {
 @Preview(showBackground = true)
 @Composable
 fun StaticSoccerGroundUI() {
-    SuperTalkApplicationTheme {
+    SuperTalkGroundApplicationTheme {
         GroundHomeScreen(rememberNavController())
     }
 }

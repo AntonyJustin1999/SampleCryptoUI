@@ -61,6 +61,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.supertalk.app.R
 import com.supertalk.app.ui.theme.SuperTalkApplicationTheme
+import com.supertalk.app.ui.theme.SuperTalkGroundApplicationTheme
 import com.supertalk.app.util.CustomFonts
 
 data class LiveEventDataSet(val message:Message,val time:String,val isDirectionLeft:Boolean)
@@ -380,7 +381,7 @@ fun getTextView(time:String) {
 @Preview(showBackground = true)
 @Composable
 fun SoccerLiveScreenUI() {
-    SuperTalkApplicationTheme {
+    SuperTalkGroundApplicationTheme {
         SoccerLiveScreenUI(rememberNavController())
     }
 }

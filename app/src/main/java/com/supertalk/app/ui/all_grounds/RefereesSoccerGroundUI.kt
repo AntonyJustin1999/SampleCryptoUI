@@ -45,6 +45,7 @@ import androidx.navigation.compose.rememberNavController
 import com.supertalk.app.R
 import com.supertalk.app.model.UsersDataSet
 import com.supertalk.app.ui.theme.SuperTalkApplicationTheme
+import com.supertalk.app.ui.theme.SuperTalkGroundApplicationTheme
 import com.supertalk.app.util.CustomFonts
 
 
@@ -147,7 +148,7 @@ fun getGroundReferees() {
 @Preview(showBackground = true)
 @Composable
 fun RefereesSoccerGroundUI() {
-    SuperTalkApplicationTheme {
+    SuperTalkGroundApplicationTheme {
         GroundHomeScreen(rememberNavController())
     }
 }
