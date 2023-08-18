@@ -2,6 +2,7 @@ package com.supertalk.app.ui.all_grounds
 
 import BottomSheetItem
 import android.content.Context
+import android.graphics.Paint.Align
 import android.widget.Toast
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.animateFloat
@@ -618,8 +619,9 @@ fun BottomRowContent(navController: NavController) {
                 style = TextStyle(
                     color = Color.Black,
                     fontSize = 14.sp,
-                    fontFamily = CustomFonts.manrope_bold
+                    fontFamily = CustomFonts.manrope_bold,
                 ),
+                modifier = Modifier.padding(bottom = 3.dp),
                 textAlign = TextAlign.Center,
             )
             Spacer(modifier = Modifier.width(5.dp))
@@ -638,8 +640,9 @@ fun BottomRowContent(navController: NavController) {
             style = TextStyle(
                 color = Color.Black,
                 fontSize = 14.sp,
-                fontFamily = CustomFonts.manrope_bold
+                fontFamily = CustomFonts.manrope_bold,
             ),
+            modifier = Modifier.padding(bottom = 3.dp),
             textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.width(5.dp))
