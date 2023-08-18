@@ -1,6 +1,7 @@
 package com.supertalk.app.ui.all_grounds
 
 import BottomSheetItem
+import android.app.Activity
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.animation.core.FastOutLinearInEasing
@@ -14,6 +15,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.rememberTransformableState
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,12 +51,15 @@ import androidx.compose.material.Text
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
@@ -71,10 +76,12 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -86,6 +93,8 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -103,14 +112,20 @@ import com.supertalk.app.ui.home.Room2Screen
 import com.supertalk.app.ui.home.Room3Screen
 import com.supertalk.app.ui.home.Room4Screen
 import com.supertalk.app.ui.theme.SuperTalkApplicationTheme
+import com.supertalk.app.ui.theme.SuperTalkGroundApplicationTheme
 import com.supertalk.app.util.CustomFonts
 import com.supertalk.app.util.NavDestinations
 import kotlinx.coroutines.launch
 
-data class SpeakersDataSet(val speakerProfile: Int,val isMikeOn: Boolean,val isMikeMute: Boolean,
-                           val isEmoji: Boolean,val isHand: Boolean,)
+data class SpeakersDataSet(
+    val speakerProfile: Int, val isMikeOn: Boolean, val isMikeMute: Boolean,
+    val isEmoji: Boolean, val isHand: Boolean,
+)
+
+
 @Composable
 fun GroundHomeScreen(navController: NavController) {
+    SetStatusBarColor(color = colorResource(R.color.ground_green))
     
     val selectedMenu = remember { mutableStateOf(-1) }
 
@@ -126,92 +141,117 @@ fun GroundHomeScreen(navController: NavController) {
     )
     {
 
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1.2f)
+        ) {
+            TopRow(navController = navController, selectedMenu)
+        }
+
+        Spacer(modifier = Modifier.height(11.dp))
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(0.9f),
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            customListView(LocalContext.current)
+        }
+
+        Spacer(modifier = Modifier.height(15.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(7.9f)
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1.2f)
-            ) {
-                TopRow(navController = navController,selectedMenu)
-            }
-
-            Spacer(modifier = Modifier.height(11.dp))
-
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.9f),
-                verticalArrangement = Arrangement.Bottom
-            ){
-                customListView(LocalContext.current)
-            }
-
-            Spacer(modifier = Modifier.height(15.dp))
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .weight(7.9f)
-            ){
-                Column(modifier = Modifier
-                    .fillMaxWidth()
                     .fillMaxHeight()
-                ){
+            ) {
 
-                    when(selectedMenu.value){
-                        0 -> {
-                            SubstituteSoccerGroundUI(navController = navController)
-                        }
-                        1 -> {
-                            RefereesSoccerGroundUI(navController = navController)
-                        }
-                        2 -> {
-                            //SoccerLiveScreenUI(navController = navController)
-                        }
-                        3 -> {
-                            Text(
-                                text = "Selected Menu ${selectedMenu.value}",
-                                style = TextStyle(
-                                    color = Color.Magenta,
-                                    fontSize = 20.sp,
-                                    fontFamily = CustomFonts.manrope_bold
-                                ),
-                                textAlign = TextAlign.Center,
-                            )
-                        }
-                        4 -> {
-                            Text(
-                                text = "Selected Menu ${selectedMenu.value}",
-                                style = TextStyle(
-                                    color = Color.Magenta,
-                                    fontSize = 20.sp,
-                                    fontFamily = CustomFonts.manrope_bold
-                                ),
-                                textAlign = TextAlign.Center,
-                            )
-                        }
-                        else -> {
-                            StaticSoccerGroundUI(navController = navController)
-                        }
+                when (selectedMenu.value) {
+                    0 -> {
+                        SubstituteSoccerGroundUI(navController = navController)
                     }
 
-                }
-            }
+                    1 -> {
+                        //    RefereesSoccerGroundUI(navController = navController)
+                    }
 
-            Spacer(modifier = Modifier.height(5.dp))
-            Column(modifier = Modifier
+                    2 -> {
+                        //SoccerLiveScreenUI(navController = navController)
+                    }
+
+                    3 -> {
+                        Text(
+                            text = "Selected Menu ${selectedMenu.value}",
+                            style = TextStyle(
+                                color = Color.Magenta,
+                                fontSize = 20.sp,
+                                fontFamily = CustomFonts.manrope_bold
+                            ),
+                            textAlign = TextAlign.Center,
+                        )
+                    }
+
+                    4 -> {
+                        Text(
+                            text = "Selected Menu ${selectedMenu.value}",
+                            style = TextStyle(
+                                color = Color.Magenta,
+                                fontSize = 20.sp,
+                                fontFamily = CustomFonts.manrope_bold
+                            ),
+                            textAlign = TextAlign.Center,
+                        )
+                    }
+
+                    else -> {
+                        StaticSoccerGroundUI(navController = navController)
+                    }
+                }
+
+            }
+        }
+
+        Spacer(modifier = Modifier.height(5.dp))
+        Column(
+            modifier = Modifier
                 .fillMaxWidth()
                 .weight(0.6f)
                 .padding(start = 10.dp, end = 10.dp)
-            ){
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 13.dp, end = 13.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    BottomRowContent(navController = navController)
-                }
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 13.dp, end = 13.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                BottomRowContent(navController = navController)
             }
+        }
     }
 }
+
+@Composable
+fun SetStatusBarColor(color: Color) {
+    val view = LocalView.current
+    val darkTheme = isSystemInDarkTheme()
+
+    if (!view.isInEditMode) {
+        SideEffect {
+            (view.context as Activity).window.statusBarColor = color.toArgb()
+            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = !darkTheme
+            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightNavigationBars = !darkTheme
+        }
+    }
+}
+
+
 @Composable
 fun customListView(context: Context) {
 
@@ -223,14 +263,14 @@ fun customListView(context: Context) {
     speakersList = ArrayList<SpeakersDataSet>()
 
     // in the below line, we are adding data to our list.
-    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,true,false,false,false)
-    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,false,false,true,true)
-    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,false,false,true,true)
-    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,false,true,false,false)
-    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,false,true,false,false)
-    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,false,true,false,false)
-    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,false,true,false,false)
-    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user,false,true,false,false)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user, true, false, false, false)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user, false, false, true, true)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user, false, false, true, true)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user, false, true, false, false)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user, false, true, false, false)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user, false, true, false, false)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user, false, true, false, false)
+    speakersList = speakersList + SpeakersDataSet(R.drawable.iv_user, false, true, false, false)
 
 //    onClick = {
 //        // inside on click we are displaying the toast message.
@@ -250,29 +290,28 @@ fun customListView(context: Context) {
                     .height(58.dp)
             )
             {
-                    Image(
-                        painter = painterResource(id = speakersList[index].speakerProfile),
-                        contentDescription = "img",
-                        modifier = Modifier
-                            .padding(start = 12.dp)
-                            .height(58.dp)
-                            .width(58.dp)
-                            .clip(RoundedCornerShape(18.dp))
-                            //.background(color = Color.Unspecified,shape = )
-                            .border(
-                                2.dp,
-                                if (selectedIndex.value == index)
-                                    colorResource(id = R.color.border_color_yellow)
-                                else
-                                    colorResource(id = R.color.white),
-                                shape = RoundedCornerShape(18.dp)
-                            )
-                            .clickable { }
-                        ,
-                        alignment = Alignment.Center
-                    )
+                Image(
+                    painter = painterResource(id = speakersList[index].speakerProfile),
+                    contentDescription = "img",
+                    modifier = Modifier
+                        .padding(start = 12.dp)
+                        .height(58.dp)
+                        .width(58.dp)
+                        .clip(RoundedCornerShape(18.dp))
+                        //.background(color = Color.Unspecified,shape = )
+                        .border(
+                            2.dp,
+                            if (selectedIndex.value == index)
+                                colorResource(id = R.color.border_color_yellow)
+                            else
+                                colorResource(id = R.color.white),
+                            shape = RoundedCornerShape(18.dp)
+                        )
+                        .clickable { },
+                    alignment = Alignment.Center
+                )
 
-                if(item.isMikeOn){
+                if (item.isMikeOn) {
                     Icon(
                         painter = painterResource(id = R.drawable.mike_on),
                         contentDescription = "",
@@ -289,7 +328,7 @@ fun customListView(context: Context) {
                     )
                 }
 
-                if(item.isEmoji){
+                if (item.isEmoji) {
                     Icon(
                         painter = painterResource(id = R.drawable.smile),
                         contentDescription = "",
@@ -306,7 +345,7 @@ fun customListView(context: Context) {
                     )
                 }
 
-                if(item.isMikeMute){
+                if (item.isMikeMute) {
                     Icon(
                         painter = painterResource(id = R.drawable.mike_off),
                         contentDescription = "",
@@ -317,14 +356,13 @@ fun customListView(context: Context) {
                             }
                             .size(40.dp, 40.dp)
                             .zIndex(2f)
-                            .clickable { }
-                        ,
+                            .clickable { },
                         tint = Color.Unspecified
 
                     )
                 }
 
-                if(item.isHand){
+                if (item.isHand) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_hand),
                         contentDescription = "",
@@ -335,8 +373,7 @@ fun customListView(context: Context) {
                             }
                             .size(37.dp, 29.dp)
                             .zIndex(2f)
-                            .clickable { }
-                        ,
+                            .clickable { },
                         tint = Color.Unspecified
 
                     )
@@ -346,8 +383,9 @@ fun customListView(context: Context) {
         }
     }
 }
+
 @Composable
-fun TopRow(navController: NavController,selectedMenu:MutableState<Int>) {
+fun TopRow(navController: NavController, selectedMenu: MutableState<Int>) {
 
     Row(
         modifier = Modifier
@@ -356,11 +394,10 @@ fun TopRow(navController: NavController,selectedMenu:MutableState<Int>) {
                 shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
             )
             .fillMaxWidth()
-            .fillMaxHeight()
-        ,
+            .fillMaxHeight(),
         verticalAlignment = Alignment.Bottom
     ) {
-        
+
         Spacer(modifier = Modifier.width(15.dp))
         getCountryIconRow(navController)
         Spacer(modifier = Modifier.weight(1f))
@@ -372,9 +409,10 @@ fun TopRow(navController: NavController,selectedMenu:MutableState<Int>) {
 
 @Composable
 fun getCountryIconRow(navController: NavController) {
-    Row(modifier = Modifier
-        .height(50.dp)
-        , verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        modifier = Modifier
+            .height(50.dp), verticalAlignment = Alignment.CenterVertically
+    ) {
         Spacer(modifier = Modifier.width(5.dp))
         Icon(
             painter = painterResource(id = R.drawable.ic_paris_saint_german),
@@ -386,8 +424,9 @@ fun getCountryIconRow(navController: NavController) {
         Spacer(modifier = Modifier.width(5.dp))
 
         Column {
-            Row(modifier = Modifier
-                , verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier, verticalAlignment = Alignment.CenterVertically
+            ) {
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(
                     text = "0",
@@ -405,7 +444,8 @@ fun getCountryIconRow(navController: NavController) {
                         .height(13.dp)
                         .width(1.dp)
                         .align(Alignment.CenterVertically)
-                        .padding(top = 2.dp))
+                        .padding(top = 2.dp)
+                )
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(
                     text = "0",
@@ -444,14 +484,16 @@ fun getCountryIconRow(navController: NavController) {
 }
 
 @Composable
-fun getHorizontalMenusList(selectedMenu:MutableState<Int>){
-    Row(modifier = Modifier
-        .height(50.dp)
-        , verticalAlignment = Alignment.CenterVertically
+fun getHorizontalMenusList(selectedMenu: MutableState<Int>) {
+    Row(
+        modifier = Modifier
+            .height(50.dp), verticalAlignment = Alignment.CenterVertically
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                painter = if(selectedMenu.value == 0) painterResource(id = R.drawable.ic_symbol_seat_clicked) else painterResource(id = R.drawable.ic_symbol_seat_not_clicked),
+                painter = if (selectedMenu.value == 0) painterResource(id = R.drawable.ic_symbol_seat_clicked) else painterResource(
+                    id = R.drawable.ic_symbol_seat_not_clicked
+                ),
                 contentDescription = "",
                 modifier = Modifier
                     .size(24.dp, 24.dp)
@@ -461,7 +503,7 @@ fun getHorizontalMenusList(selectedMenu:MutableState<Int>){
                 tint = Color.Unspecified
             )
 
-            if(selectedMenu.value == 0) {
+            if (selectedMenu.value == 0) {
                 Spacer(modifier = Modifier.height(2.dp))
 
                 Icon(
@@ -479,7 +521,9 @@ fun getHorizontalMenusList(selectedMenu:MutableState<Int>){
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                painter = if(selectedMenu.value == 1) painterResource(id = R.drawable.ic_whistle_clicked) else painterResource(id = R.drawable.ic_whistle_not_clicked),
+                painter = if (selectedMenu.value == 1) painterResource(id = R.drawable.ic_whistle_clicked) else painterResource(
+                    id = R.drawable.ic_whistle_not_clicked
+                ),
                 contentDescription = "",
                 modifier = Modifier
                     .size(24.dp, 24.dp)
@@ -489,7 +533,7 @@ fun getHorizontalMenusList(selectedMenu:MutableState<Int>){
                 tint = Color.Unspecified
             )
 
-            if(selectedMenu.value == 1) {
+            if (selectedMenu.value == 1) {
                 Spacer(modifier = Modifier.height(2.dp))
 
                 Icon(
@@ -507,7 +551,9 @@ fun getHorizontalMenusList(selectedMenu:MutableState<Int>){
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                painter = if(selectedMenu.value == 2) painterResource(id = R.drawable.ic_fluent_live_clicked) else painterResource(id = R.drawable.ic_fluent_live_not_clicked),
+                painter = if (selectedMenu.value == 2) painterResource(id = R.drawable.ic_fluent_live_clicked) else painterResource(
+                    id = R.drawable.ic_fluent_live_not_clicked
+                ),
                 contentDescription = "",
                 modifier = Modifier
                     .size(24.dp, 24.dp)
@@ -517,7 +563,7 @@ fun getHorizontalMenusList(selectedMenu:MutableState<Int>){
                 tint = Color.Unspecified
             )
 
-            if(selectedMenu.value == 2){
+            if (selectedMenu.value == 2) {
                 Spacer(modifier = Modifier.height(2.dp))
 
                 Icon(
@@ -535,7 +581,9 @@ fun getHorizontalMenusList(selectedMenu:MutableState<Int>){
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                painter = if(selectedMenu.value == 3) painterResource(id = R.drawable.ic_fluent_people_clicked) else painterResource(id = R.drawable.ic_fluent_people_not_clicked),
+                painter = if (selectedMenu.value == 3) painterResource(id = R.drawable.ic_fluent_people_clicked) else painterResource(
+                    id = R.drawable.ic_fluent_people_not_clicked
+                ),
                 contentDescription = "",
                 modifier = Modifier
                     .size(24.dp, 24.dp)
@@ -545,7 +593,7 @@ fun getHorizontalMenusList(selectedMenu:MutableState<Int>){
                 tint = Color.Unspecified
             )
 
-            if(selectedMenu.value == 3){
+            if (selectedMenu.value == 3) {
                 Spacer(modifier = Modifier.height(2.dp))
 
                 Icon(
@@ -562,7 +610,9 @@ fun getHorizontalMenusList(selectedMenu:MutableState<Int>){
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                painter = if(selectedMenu.value == 4) painterResource(id = R.drawable.ic_stats_up_clicked) else painterResource(id = R.drawable.ic_stats_up_not_clicked),
+                painter = if (selectedMenu.value == 4) painterResource(id = R.drawable.ic_stats_up_clicked) else painterResource(
+                    id = R.drawable.ic_stats_up_not_clicked
+                ),
                 contentDescription = "",
                 modifier = Modifier
                     .size(24.dp, 24.dp)
@@ -572,7 +622,7 @@ fun getHorizontalMenusList(selectedMenu:MutableState<Int>){
                 tint = Color.Unspecified
             )
 
-            if(selectedMenu.value == 4) {
+            if (selectedMenu.value == 4) {
                 Spacer(modifier = Modifier.height(2.dp))
 
                 Icon(
@@ -594,44 +644,45 @@ fun getHorizontalMenusList(selectedMenu:MutableState<Int>){
 @Composable
 fun BottomRowContent(navController: NavController) {
 
-        //Spacer(modifier = Modifier.width(5.dp))
+    //Spacer(modifier = Modifier.width(5.dp))
 
-        Row(modifier = Modifier
+    Row(
+        modifier = Modifier
             .background(
                 Color.White,
                 RoundedCornerShape(40.dp)
             )
-            .height(25.dp)
-            , verticalAlignment = Alignment.CenterVertically
-        ) {
-            Spacer(modifier = Modifier.width(5.dp))
-            Icon(
-                painter = painterResource(id = R.drawable.ic_eye),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(18.dp, 18.dp),
-                tint = Color.Unspecified
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Text(
-                text = "100K",
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = 14.sp,
-                    fontFamily = CustomFonts.manrope_bold
-                ),
-                textAlign = TextAlign.Center,
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-        }
+            .height(25.dp), verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(modifier = Modifier.width(5.dp))
+        Icon(
+            painter = painterResource(id = R.drawable.ic_eye),
+            contentDescription = "",
+            modifier = Modifier
+                .size(18.dp, 18.dp),
+            tint = Color.Unspecified
+        )
+        Spacer(modifier = Modifier.width(5.dp))
+        Text(
+            text = "100K",
+            style = TextStyle(
+                color = Color.Black,
+                fontSize = 14.sp,
+                fontFamily = CustomFonts.manrope_bold
+            ),
+            textAlign = TextAlign.Center,
+        )
+        Spacer(modifier = Modifier.width(5.dp))
+    }
 
-        Row(modifier = Modifier
+    Row(
+        modifier = Modifier
             .background(
                 Color.White,
                 RoundedCornerShape(40.dp)
             )
-            .height(25.dp)
-        , verticalAlignment = Alignment.CenterVertically) {
+            .height(25.dp), verticalAlignment = Alignment.CenterVertically
+    ) {
         Spacer(modifier = Modifier.width(5.dp))
         Text(
             text = "Room1",
@@ -643,20 +694,20 @@ fun BottomRowContent(navController: NavController) {
             textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.width(5.dp))
-         }
-        Icon(
-            painter = painterResource(id = R.drawable.ic_close_circle),
-            contentDescription = "",
-            modifier = Modifier
-                .size(32.dp, 32.dp),
-            tint = Color.Unspecified
-        )
+    }
+    Icon(
+        painter = painterResource(id = R.drawable.ic_close_circle),
+        contentDescription = "",
+        modifier = Modifier
+            .size(32.dp, 32.dp),
+        tint = Color.Unspecified
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {
-    SuperTalkApplicationTheme {
+    SuperTalkGroundApplicationTheme {
         GroundHomeScreen(rememberNavController())
     }
 }
