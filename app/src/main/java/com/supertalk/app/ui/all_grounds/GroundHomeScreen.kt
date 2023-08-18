@@ -112,7 +112,7 @@ data class SpeakersDataSet(val speakerProfile: Int,val isMikeOn: Boolean,val isM
 @Composable
 fun GroundHomeScreen(navController: NavController) {
     
-    val selectedMenu = remember { mutableStateOf(-1) }
+    val selectedMenu = remember { mutableStateOf(2) }
 
     Column(
         Modifier
@@ -162,7 +162,7 @@ fun GroundHomeScreen(navController: NavController) {
                             RefereesSoccerGroundUI(navController = navController)
                         }
                         2 -> {
-                            //SoccerLiveScreenUI(navController = navController)
+                            SoccerLiveScreenUI(navController = navController)
                         }
                         3 -> {
                             Text(

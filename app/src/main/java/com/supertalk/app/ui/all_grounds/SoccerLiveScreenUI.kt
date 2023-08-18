@@ -73,15 +73,15 @@ fun liveEventView() {
                     color = colorResource(id = R.color.un_selected_background_color),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .width(1.dp)
+                        .width(2.dp)
                         .padding(top = 10.dp, bottom = 10.dp)
                 )
 
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_coin_yellow),
+                    painter = painterResource(id = R.drawable.ic_ellipse),
                     contentDescription = "",
                     modifier = Modifier
-                        .size(18.dp, 18.dp),
+                        .size(10.dp, 10.dp),
                     tint = Color.Unspecified
                 )
 
