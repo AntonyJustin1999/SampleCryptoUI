@@ -156,26 +156,10 @@ fun GroundHomeScreen(navController: NavController) {
 
                     when(selectedMenu.value){
                         0 -> {
-                            Text(
-                                text = "Selected Menu ${selectedMenu.value}",
-                                style = TextStyle(
-                                    color = Color.LightGray,
-                                    fontSize = 20.sp,
-                                    fontFamily = CustomFonts.manrope_bold
-                                ),
-                                textAlign = TextAlign.Center,
-                            )
+                            SubstituteSoccerGroundUI(navController = navController)
                         }
                         1 -> {
-                            Text(
-                                text = "Selected Menu ${selectedMenu.value}",
-                                style = TextStyle(
-                                    color = Color.Green,
-                                    fontSize = 20.sp,
-                                    fontFamily = CustomFonts.manrope_bold
-                                ),
-                                textAlign = TextAlign.Center,
-                            )
+                            RefereesSoccerGroundUI(navController = navController)
                         }
                         2 -> {
                             //SoccerLiveScreenUI(navController = navController)
