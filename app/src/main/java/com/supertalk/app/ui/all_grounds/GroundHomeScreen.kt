@@ -128,7 +128,7 @@ data class SpeakersDataSet(
 fun GroundHomeScreen(navController: NavController) {
     SetStatusBarColor(color = colorResource(R.color.ground_green))
     
-    val selectedMenu = remember { mutableStateOf(-1) }
+    val selectedMenu = remember { mutableStateOf(3) }
 
     Column(
         Modifier
@@ -187,15 +187,7 @@ fun GroundHomeScreen(navController: NavController) {
                     }
 
                     3 -> {
-                        Text(
-                            text = "Selected Menu ${selectedMenu.value}",
-                            style = TextStyle(
-                                color = Color.Magenta,
-                                fontSize = 20.sp,
-                                fontFamily = CustomFonts.manrope_bold
-                            ),
-                            textAlign = TextAlign.Center,
-                        )
+                        SoccerPeopleTeamUI(navController = navController)
                     }
 
                     4 -> {

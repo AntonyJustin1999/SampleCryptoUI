@@ -76,7 +76,7 @@ fun StaticSoccerGroundUI(navController: NavController) {
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
                     .offset {
-                        IntOffset(x = -100, y = -100)
+                        IntOffset(x = -50, y = -100)
                     }
                     .size(32.dp, 32.dp)
                     .clickable { }
