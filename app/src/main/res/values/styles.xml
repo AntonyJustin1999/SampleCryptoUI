@@ -19,11 +19,11 @@
     </style>
 
     <style name="AppTheme.NoActionBar.Common">
-        <item name="themePrimary">@color/violet_dark</item>
-        <item name="themePrimaryDark">@color/violet_dark</item>
-        <item name="themeAccent">@color/violet_dark</item>
+        <item name="themePrimary">@color/white</item>
+        <item name="themePrimaryDark">@color/black</item>
+        <item name="themeAccent">@color/white</item>
         <item name="themeContentBackground">@color/white</item>
-        <item name="themeContentTextColor">@color/black</item>
+        <item name="themeContentTextColor">@color/white</item>
         <item name="themeContentTextColorOnPrimary">@color/white</item>
     </style>
 

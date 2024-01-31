@@ -2,9 +2,11 @@
 <resources>
     <color name="violet_dark">#623CBB</color>
     <color name="violet_light">#7553C5</color>
+    <color name="light_grey">#C8C8C8</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="background">#f3f0ff</color>
+    <color name="background">#212121</color>
+    <color name="rounded_background">#333028</color>
     <color name="text_color">#7C8396</color>
     <color name="otp_color_background">#FFE0DD</color>
     <color name="otp_text_color">#EC5C4D</color>
@@ -12,13 +14,17 @@
     <color name="un_selected_background_color">#D6D0E2</color>
     <color name="border_color">#E9E0FF</color>
     <color name="light_background_menu">#F4EFFF</color>
-    <color name="border_color_yellow">#EFA142</color>
+    <color name="border_color_yellow">#FFBF00</color>
     <color name="green">#12A35D</color>
     <color name="light_background">#F5F3FF</color>
     <color name="ground_green">#688C43</color>
     <color name="green_background">#426F14</color>
-
-
-
-
+    <color name="red_color">#FF3535</color>
+    <color name="red_text">#EA392D</color>
+    <color name="green_text">#58B55C</color>
+    <color name="background_red_color">#3D2A2A</color>
+    <color name="background_green_color">#1F2D20</color>
+    <color name="rounded_stroke_color">#282828</color>
+    <color name="rounded_fill_color">#212121</color>
+    <color name="graph_line_color">#DBDBDB</color>
 </resources>

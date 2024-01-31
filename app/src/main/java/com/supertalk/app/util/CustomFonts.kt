@@ -5,11 +5,14 @@ import androidx.compose.ui.text.font.FontFamily
 import com.supertalk.app.R
 
 object CustomFonts {
-    val manrope_extra_light = FontFamily(Font(R.font.manrope_extra_light))
-    val manrope_light = FontFamily(Font(R.font.manrope_light))
-    val manrope_regular = FontFamily(Font(R.font.manrope_regular))
-    val manrope_medium = FontFamily(Font(R.font.manrope_medium))
-    val manrope_semi_bold = FontFamily(Font(R.font.manrope_semi_bold))
-    val manrope_bold = FontFamily(Font(R.font.manrope_bold))
-    val manrope_extra_bold = FontFamily(Font(R.font.manrope_extra_bold))
+    val gilroy_medium = FontFamily(Font(R.font.gilroy_medium))
+    val gilroy_black = FontFamily(Font(R.font.gilroy_black))
+    val gilroy_bold = FontFamily(Font(R.font.gilroy_bold))
+    val gilroy_heavy = FontFamily(Font(R.font.gilroy_heavy))
+    val gilroy_extrabold = FontFamily(Font(R.font.gilroy_extrabold))
+    val gilroy_light = FontFamily(Font(R.font.gilroy_light))
+    val gilroy_regular = FontFamily(Font(R.font.gilroy_regular))
+    val gilroy_semibold = FontFamily(Font(R.font.gilroy_semibold))
+    val gilroy_thin = FontFamily(Font(R.font.gilroy_thin))
+    val gilroy_ultra_light = FontFamily(Font(R.font.gilroy_ultra_light))
 }

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SuperTalk</string>
     <string name="something_wrong">Something Went Wrong</string>
+    <string name="hello">Hello, %1$s.\nNice to meet you.</string>
 </resources>
